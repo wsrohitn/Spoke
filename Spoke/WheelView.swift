@@ -8,29 +8,87 @@
 
 import UIKit
 
-@IBDesignable
+//@IBDesignable
 class WheelView: UIView {
     
-    override func drawRect(rect: CGRect) {
-        let path = UIBezierPath(ovalInRect: rect)
-        UIColor.lightGrayColor().setFill()
-        path.fill()
+    var circlePathLayer = CAShapeLayer()
+    var wheel: Wheel = Wheel(centerLabel: "", spokes: [:])
+    
+    init(frame: CGRect, wheel: Wheel) {
+        super.init(frame: frame)
+        drawCircle()
+        self.wheel = wheel
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)!
+        drawCircle()
+    }
+    
+    class func makeInView(view: UIView, margin: CGFloat = 0.0, wheel: Wheel) -> WheelView {
+        let fMain = view.frame
+        var w = fMain.width
+        if fMain.width > fMain.height {
+            w = fMain.height
+        }
+        w = w - 2 * margin
         
-//        let linePath = UIBezierPath()
-//        linePath.moveToPoint(CGPoint(x: bounds.width/2, y: bounds.height/2))
-        //linePath.addLineToPoint(CGPoint(x: 0, y: 120))
-//        linePath.addLineToPoint(CGPoint(x: 120 + 120 * cos(M_PI) , y: 120 + 120 * sin(M_PI)))
-//        linePath.stroke()
-        UIColor.blackColor().setStroke()
+        let f  = CGRectMake( (fMain.width - w )/2, (fMain.height - w )/2, w, w)
+        let wheelView = WheelView(frame: f, wheel: wheel)
+        wheelView.displayWheel()
         
-        let paths = getNPaths(12)
-        for path in paths {
-            path.stroke()
+        view.addSubview(wheelView)
+        return wheelView
+    }
+    
+    func displayWheel() {
+        displayAllPaths()
+    }
+    
+    func drawCircle() {
+        circlePathLayer.frame = bounds
+        circlePathLayer.path = UIBezierPath(ovalInRect: circlePathLayer.frame).CGPath
+        circlePathLayer.fillColor = UIColor.lightGrayColor().CGColor
+        circlePathLayer.backgroundColor = UIColor.clearColor().CGColor
+        layer.addSublayer(circlePathLayer)
+    }
+    
+    func displayAllPaths(){
+        let amounts = wheel.spokes.map({ $0.1 })
+        let num = amounts.count
+        
+        for i in 0 ..< num {
+            let path = getPath(calculateAngle(i, num: num), amount: amounts[i].decimalNumberByDividingBy(wheel.maxAmount))
+            addPath(path, negate: amounts[i].doubleValue < 0.0)
         }
     }
     
-    func getNPaths(num: Int) -> [UIBezierPath] {
-        var result = [UIBezierPath]()
+    func getPath(theta: Double, amount: NSDecimalNumber) -> UIBezierPath {
+        let r = Double(bounds.width/2)
+        let path = UIBezierPath()
+        path.moveToPoint(CGPoint(x: bounds.width, y: bounds.height))
+        let amp = abs( Double(amount) )
+        let point = CGPoint(x: 2*r + amp * r * cos(theta), y: 2*r + amp * r * sin(theta) )
+        path.addLineToPoint(point)
+        
+        return path
+    }
+    
+    func calculateAngle(i: Int, num: Int) -> Double {
+        return Double(i) * Double(2) * M_PI / Double(num)
+    }
+    
+    func addPath(path: UIBezierPath, negate: Bool) {
+        let pathLayer = CAShapeLayer()
+        pathLayer.bounds = circlePathLayer.bounds
+//        path.lineWidth = 5.0
+        pathLayer.path = path.CGPath
+        pathLayer.lineWidth = 5.0
+        pathLayer.strokeColor = negate ? UIColor.redColor().CGColor : UIColor.greenColor().CGColor
+        circlePathLayer.addSublayer(pathLayer)
+    }
+    
+    func addLabels(num: Int) {
         let r = Double(bounds.width/2)
         
         for i in 0 ..< num {
@@ -42,15 +100,8 @@ class WheelView: UIView {
             let label = UILabel(frame: self.frame)
             label.center = point
             label.textAlignment = NSTextAlignment.Center
-            label.text = "I'am a test label"
-            super.addSubview(label)
-            
-            path.addLineToPoint(point)
-            
-            result.append(path)
+            label.text = "Test"
+            self.addSubview(label)
         }
-        
-        return result
     }
-    
 }

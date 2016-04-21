@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C71676361CC7B37100CA7F8A /* SpokeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71676351CC7B37100CA7F8A /* SpokeData.swift */; };
 		C71676381CC7B7B300CA7F8A /* WheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71676371CC7B7B300CA7F8A /* WheelView.swift */; };
+		C716763A1CC7E34800CA7F8A /* Wheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71676391CC7E34800CA7F8A /* Wheel.swift */; };
 		C751D2121CC7A10C003C2B5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C751D2111CC7A10C003C2B5B /* AppDelegate.swift */; };
 		C751D2141CC7A10C003C2B5B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C751D2131CC7A10C003C2B5B /* ViewController.swift */; };
 		C751D2171CC7A10C003C2B5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C751D2151CC7A10C003C2B5B /* Main.storyboard */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		C71676351CC7B37100CA7F8A /* SpokeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpokeData.swift; sourceTree = "<group>"; };
 		C71676371CC7B7B300CA7F8A /* WheelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WheelView.swift; sourceTree = "<group>"; };
+		C71676391CC7E34800CA7F8A /* Wheel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wheel.swift; sourceTree = "<group>"; };
 		C751D20E1CC7A10C003C2B5B /* Spoke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spoke.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C751D2111CC7A10C003C2B5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C751D2131CC7A10C003C2B5B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				C751D21D1CC7A10C003C2B5B /* Info.plist */,
 				C71676351CC7B37100CA7F8A /* SpokeData.swift */,
 				C71676371CC7B7B300CA7F8A /* WheelView.swift */,
+				C71676391CC7E34800CA7F8A /* Wheel.swift */,
 			);
 			path = Spoke;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 				C71676361CC7B37100CA7F8A /* SpokeData.swift in Sources */,
 				C751D2141CC7A10C003C2B5B /* ViewController.swift in Sources */,
 				C751D2121CC7A10C003C2B5B /* AppDelegate.swift in Sources */,
+				C716763A1CC7E34800CA7F8A /* Wheel.swift in Sources */,
 				C71676381CC7B7B300CA7F8A /* WheelView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

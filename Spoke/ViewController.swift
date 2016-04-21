@@ -34,12 +34,10 @@ class ViewController: UIViewController {
         let myNetTransactions = getNetTransactions(myTransaction, name: "DEF")
         print(myNetTransactions)
         
-        print("m_2_pi is", M_2_PI)
-        print("cos of that is", cos(M_2_PI))
+        let wheel = Wheel(centerLabel: "DEF", spokes: myNetTransactions)
+        print(wheel.maxAmount)
         
-        print("cos of 180 is", cos(180.0))
-        print("m_pi is", M_PI)
-        print("cos of pi is", cos(M_PI))
+        let wheelView = WheelView.makeInView(self.view, margin: 10, wheel: wheel)
     }
 
     override func didReceiveMemoryWarning() {
