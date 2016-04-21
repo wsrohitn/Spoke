@@ -30,14 +30,15 @@ class ViewController: UIViewController {
         names.sortInPlace()
         print(names)
         
-        let myTransaction = getTransactionsFor("DEF")
-        let myNetTransactions = getNetTransactions(myTransaction, name: "DEF")
+        let myTransaction = getTransactionsFor("ABC")
+        let myNetTransactions = getNetTransactions(myTransaction, name: "ABC")
         print(myNetTransactions)
         
         let wheel = Wheel(centerLabel: "DEF", spokes: myNetTransactions)
         print(wheel.maxAmount)
         
         let wheelView = WheelView.makeInView(self.view, margin: 10, wheel: wheel)
+        addTapToView(wheelView)
     }
 
     override func didReceiveMemoryWarning() {
@@ -94,5 +95,18 @@ class ViewController: UIViewController {
         }
         
         return result
+    }
+    
+    func addTapToView(view: UIView) {
+        let tapgr = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapView))
+        view.addGestureRecognizer(tapgr)
+    }
+    
+    func tapView() {
+        let view = self.view
+        UIView.animateWithDuration(2.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            view.contentScaleFactor = (view.contentScaleFactor == 2.0 ? 1.0 : 2.0)
+            view.transform = CGAffineTransformMakeScale(view.contentScaleFactor, view.contentScaleFactor)
+        }, completion: nil)
     }
 }

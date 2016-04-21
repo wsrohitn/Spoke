@@ -43,6 +43,7 @@ class WheelView: UIView {
     
     func displayWheel() {
         displayAllPaths()
+        addLabels()
     }
     
     func drawCircle() {
@@ -81,15 +82,16 @@ class WheelView: UIView {
     func addPath(path: UIBezierPath, negate: Bool) {
         let pathLayer = CAShapeLayer()
         pathLayer.bounds = circlePathLayer.bounds
-//        path.lineWidth = 5.0
         pathLayer.path = path.CGPath
-        pathLayer.lineWidth = 5.0
+        pathLayer.lineWidth = 3.0
         pathLayer.strokeColor = negate ? UIColor.redColor().CGColor : UIColor.greenColor().CGColor
         circlePathLayer.addSublayer(pathLayer)
     }
     
-    func addLabels(num: Int) {
+    func addLabels() {
         let r = Double(bounds.width/2)
+        let names = wheel.spokes.map( {$0.0} )
+        let num = names.count
         
         for i in 0 ..< num {
             let path = UIBezierPath()
@@ -100,7 +102,7 @@ class WheelView: UIView {
             let label = UILabel(frame: self.frame)
             label.center = point
             label.textAlignment = NSTextAlignment.Center
-            label.text = "Test"
+            label.text = names[i]
             self.addSubview(label)
         }
     }
