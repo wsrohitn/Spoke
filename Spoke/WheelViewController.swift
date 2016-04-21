@@ -18,7 +18,7 @@ struct Transaction {
     let day: Int
 }
 
-class ViewController: UIViewController {
+class WheelViewController: UIViewController {
     var spokeData: SpokeData?
     var names = [String]()
     
@@ -98,7 +98,7 @@ class ViewController: UIViewController {
     }
     
     func addTapToView(view: UIView) {
-        let tapgr = UITapGestureRecognizer(target: self, action: #selector(ViewController.tapView))
+        let tapgr = UITapGestureRecognizer(target: self, action: #selector(WheelViewController.tapView))
         view.addGestureRecognizer(tapgr)
     }
     

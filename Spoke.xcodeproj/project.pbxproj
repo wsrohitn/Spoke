@@ -11,11 +11,16 @@
 		C71676381CC7B7B300CA7F8A /* WheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71676371CC7B7B300CA7F8A /* WheelView.swift */; };
 		C716763A1CC7E34800CA7F8A /* Wheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71676391CC7E34800CA7F8A /* Wheel.swift */; };
 		C751D2121CC7A10C003C2B5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C751D2111CC7A10C003C2B5B /* AppDelegate.swift */; };
-		C751D2141CC7A10C003C2B5B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C751D2131CC7A10C003C2B5B /* ViewController.swift */; };
+		C751D2141CC7A10C003C2B5B /* WheelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C751D2131CC7A10C003C2B5B /* WheelViewController.swift */; };
 		C751D2171CC7A10C003C2B5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C751D2151CC7A10C003C2B5B /* Main.storyboard */; };
 		C751D2191CC7A10C003C2B5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C751D2181CC7A10C003C2B5B /* Assets.xcassets */; };
 		C751D21C1CC7A10C003C2B5B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C751D21A1CC7A10C003C2B5B /* LaunchScreen.storyboard */; };
 		C751D2271CC7A10C003C2B5B /* SpokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C751D2261CC7A10C003C2B5B /* SpokeTests.swift */; };
+		C7F4ECB11CC917AC0094EC55 /* MenuTVCTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4ECB01CC917AC0094EC55 /* MenuTVCTableViewController.swift */; };
+		C7F4ECB31CC91E160094EC55 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4ECB21CC91E160094EC55 /* CouchbaseLite.framework */; };
+		C7F4ECB51CC91E1C0094EC55 /* WsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4ECB41CC91E1C0094EC55 /* WsBase.framework */; };
+		C7F4ECB81CC91EB40094EC55 /* CBSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4ECB71CC91EB40094EC55 /* CBSettings.swift */; };
+		C7F4ECBA1CC91F840094EC55 /* WsCouchBasic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4ECB91CC91F840094EC55 /* WsCouchBasic.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,7 +39,7 @@
 		C71676391CC7E34800CA7F8A /* Wheel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wheel.swift; sourceTree = "<group>"; };
 		C751D20E1CC7A10C003C2B5B /* Spoke.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spoke.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C751D2111CC7A10C003C2B5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C751D2131CC7A10C003C2B5B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C751D2131CC7A10C003C2B5B /* WheelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelViewController.swift; sourceTree = "<group>"; };
 		C751D2161CC7A10C003C2B5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C751D2181CC7A10C003C2B5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C751D21B1CC7A10C003C2B5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -42,6 +47,12 @@
 		C751D2221CC7A10C003C2B5B /* SpokeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpokeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C751D2261CC7A10C003C2B5B /* SpokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpokeTests.swift; sourceTree = "<group>"; };
 		C751D2281CC7A10C003C2B5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C7F4ECB01CC917AC0094EC55 /* MenuTVCTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTVCTableViewController.swift; sourceTree = "<group>"; };
+		C7F4ECB21CC91E160094EC55 /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Carthage/Build/iOS/CouchbaseLite.framework; sourceTree = "<group>"; };
+		C7F4ECB41CC91E1C0094EC55 /* WsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WsBase.framework; path = Carthage/Build/iOS/WsBase.framework; sourceTree = "<group>"; };
+		C7F4ECB71CC91EB40094EC55 /* CBSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBSettings.swift; sourceTree = "<group>"; };
+		C7F4ECB91CC91F840094EC55 /* WsCouchBasic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WsCouchBasic.framework; path = Carthage/Build/iOS/WsCouchBasic.framework; sourceTree = "<group>"; };
+		C7F4ECBB1CC91FB80094EC55 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +60,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7F4ECBA1CC91F840094EC55 /* WsCouchBasic.framework in Frameworks */,
+				C7F4ECB31CC91E160094EC55 /* CouchbaseLite.framework in Frameworks */,
+				C7F4ECB51CC91E1C0094EC55 /* WsBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +79,9 @@
 		C751D2051CC7A10C003C2B5B = {
 			isa = PBXGroup;
 			children = (
+				C7F4ECB91CC91F840094EC55 /* WsCouchBasic.framework */,
+				C7F4ECB41CC91E1C0094EC55 /* WsBase.framework */,
+				C7F4ECB21CC91E160094EC55 /* CouchbaseLite.framework */,
 				C751D2101CC7A10C003C2B5B /* Spoke */,
 				C751D2251CC7A10C003C2B5B /* SpokeTests */,
 				C751D20F1CC7A10C003C2B5B /* Products */,
@@ -84,7 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				C751D2111CC7A10C003C2B5B /* AppDelegate.swift */,
-				C751D2131CC7A10C003C2B5B /* ViewController.swift */,
+				C751D2131CC7A10C003C2B5B /* WheelViewController.swift */,
 				C751D2151CC7A10C003C2B5B /* Main.storyboard */,
 				C751D2181CC7A10C003C2B5B /* Assets.xcassets */,
 				C751D21A1CC7A10C003C2B5B /* LaunchScreen.storyboard */,
@@ -92,6 +109,9 @@
 				C71676351CC7B37100CA7F8A /* SpokeData.swift */,
 				C71676371CC7B7B300CA7F8A /* WheelView.swift */,
 				C71676391CC7E34800CA7F8A /* Wheel.swift */,
+				C7F4ECB01CC917AC0094EC55 /* MenuTVCTableViewController.swift */,
+				C7F4ECB71CC91EB40094EC55 /* CBSettings.swift */,
+				C7F4ECBB1CC91FB80094EC55 /* BridgingHeader.h */,
 			);
 			path = Spoke;
 			sourceTree = "<group>";
@@ -115,6 +135,7 @@
 				C751D20A1CC7A10C003C2B5B /* Sources */,
 				C751D20B1CC7A10C003C2B5B /* Frameworks */,
 				C751D20C1CC7A10C003C2B5B /* Resources */,
+				C7F4ECB61CC91E230094EC55 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -201,13 +222,34 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C7F4ECB61CC91E230094EC55 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/WsBase.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/WsCouchBasic.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CouchbaseLite.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C751D20A1CC7A10C003C2B5B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				C71676361CC7B37100CA7F8A /* SpokeData.swift in Sources */,
-				C751D2141CC7A10C003C2B5B /* ViewController.swift in Sources */,
+				C7F4ECB81CC91EB40094EC55 /* CBSettings.swift in Sources */,
+				C751D2141CC7A10C003C2B5B /* WheelViewController.swift in Sources */,
+				C7F4ECB11CC917AC0094EC55 /* MenuTVCTableViewController.swift in Sources */,
 				C751D2121CC7A10C003C2B5B /* AppDelegate.swift in Sources */,
 				C716763A1CC7E34800CA7F8A /* Wheel.swift in Sources */,
 				C71676381CC7B7B300CA7F8A /* WheelView.swift in Sources */,
@@ -341,6 +383,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Spoke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Whitespace.Spoke;
@@ -352,6 +398,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Spoke/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Whitespace.Spoke;
