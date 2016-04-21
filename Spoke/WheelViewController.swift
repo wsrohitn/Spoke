@@ -19,19 +19,27 @@ struct Transaction {
 }
 
 class WheelViewController: UIViewController {
-    var spokeData: SpokeData?
+    var transactions: [Transaction]?
     var names = [String]()
+    
+    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, transactions: [Transaction], title: String) {
+        if let vc = sb.instantiateViewControllerWithIdentifier("WheelViewController") as? WheelViewController {
+            nc.pushViewController(vc, animated: true)
+            vc.setInitialState(title, transactions: transactions)
+        }
+    }
+    
+    func setInitialState(title: String, transactions: [Transaction]) {
+        self.title = title
+        self.transactions = transactions
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        spokeData = SpokeData.init()
-        print("number of transactions is", spokeData!.array.count)
         getAllNames()
         names.sortInPlace()
-        print(names)
-        
-        let myTransaction = getTransactionsFor("ABC")
-        let myNetTransactions = getNetTransactions(myTransaction, name: "ABC")
+        let myTransactions = getTransactionsFor(self.title!)
+        let myNetTransactions = getNetTransactions(myTransactions, name: self.title!)
         print(myNetTransactions)
         
         let wheel = Wheel(centerLabel: "DEF", spokes: myNetTransactions)
@@ -43,20 +51,19 @@ class WheelViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func getAllNames() {
-        let payers = spokeData?.array.map({$0.payer})
-        let payees = spokeData?.array.map({$0.payee})
+        let payers = transactions!.map({$0.payer})
+        let payees = transactions!.map({$0.payee})
         
-        for name in payers! {
+        for name in payers {
             if !names.contains(name) {
                 names.append(name)
             }
         }
         
-        for name in payees! {
+        for name in payees {
             if !names.contains(name) {
                 names.append(name)
             }
@@ -66,7 +73,7 @@ class WheelViewController: UIViewController {
     func getTransactionsFor(name: String) -> [Transaction] {
         var result = [Transaction]()
         
-        for transaction in spokeData!.array {
+        for transaction in transactions! {
             if transaction.payee == name || transaction.payer == name {
                 result.append(transaction)
             }
@@ -89,9 +96,9 @@ class WheelViewController: UIViewController {
             let incomingAmount = incomingFromX.map({$0.amount}).reduce(NSDecimalNumber.zero(), combine: { $0.decimalNumberByAdding($1) })
             let netAmount = incomingAmount.decimalNumberByAdding(outgoingAmount)
             
-            if netAmount.compare(NSDecimalNumber.zero()) != .OrderedSame {
+//            if netAmount.compare(NSDecimalNumber.zero()) != .OrderedSame {
                 result[x] = netAmount
-            }
+//            }
         }
         
         return result

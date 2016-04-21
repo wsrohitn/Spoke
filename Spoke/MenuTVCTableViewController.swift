@@ -71,7 +71,7 @@ class MenuTVCTableViewController: UITableViewController {
         
         print("test data has", testData.count)
         getNames()
-        print("names", names.count)
+        names.sortInPlace()
     }
     
     func getNames() {
@@ -111,7 +111,8 @@ class MenuTVCTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        <#code#>
+        let name = names[indexPath.row]
+        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, transactions: testData, title: name)
     }
 
 }
