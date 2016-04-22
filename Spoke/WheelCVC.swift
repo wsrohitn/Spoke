@@ -7,59 +7,97 @@
 //
 
 import UIKit
+import WsBase
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifier = "WheelCVCell"
 
 class WheelCVC: UICollectionViewController {
-    var transactions: [Transaction]?
+    var bkrDicts: StringKeyDict?
+    var brokerNames = [String]()
+    var currencies = [String]()
     
+    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, bkrDicts: StringKeyDict, title: String) {
+        if let vc = sb.instantiateViewControllerWithIdentifier("WheelCVC") as? WheelCVC {
+            nc.pushViewController(vc, animated: true)
+            vc.setInitialState(title, bkrDicts: bkrDicts)
+        }
+    }
     
-//    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, transactions: [Transaction], title: String) {
-//        if let vc = sb.instantiateViewControllerWithIdentifier("WheelViewController") as? WheelViewController {
-//            nc.pushViewController(vc, animated: true)
-//            vc.setInitialState(title, netTransactions: transactions)
-//        }
-//    }
-//    
-//    func setInitialState(title: String, transactions: [Transaction]) {
-//        self.title = title
-//        self.transactions = transactions
-//    }
+    func setInitialState(title: String, bkrDicts: StringKeyDict) {
+        self.title = title
+        self.bkrDicts = bkrDicts
+        getNames()
+        getCurrencies()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return bkrDicts!.count
     }
 
-
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+        return 5
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
-    
-        // Configure the cell
-    
+        let name = brokerNames[indexPath.section]
+        let bkrDict = bkrDicts![name] as! StringKeyDict
+        
+        let netTransactions = bkrDict[currencies[indexPath.row]] as! [String: NSDecimalNumber]
+        let wheel = Wheel(centerLabel: "DEF", spokes: netTransactions)
+        WheelView.makeInView(cell, wheel: wheel)
         return cell
     }
+    
+    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "sectionHeader", forIndexPath: indexPath)
+        header.backgroundColor = UIBranding.sharedInstance.branding.sectionHeaderBackgroundColor
+        
+        let str = brokerNames[indexPath.section]
+        for v in header.subviews {
+            if let lbl = v as? UILabel {
+                lbl.text = str
+                lbl.textColor = UIBranding.sharedInstance.branding.titleColor
+            }
+        }
+        
+        return header
+    }
+    
+    func getNames() {
+        if let dict = bkrDicts {
+            let keys = dict.keys
+            for key in keys {
+                brokerNames.append(key)
+            }
+        }
+        brokerNames.sortInPlace()
+    }
+    
+    func getCurrencies() {
+        let bkrDict = bkrDicts![ brokerNames[0]] as! StringKeyDict
+        
+        let keys = bkrDict.keys
+        for key in keys {
+            currencies.append(key)
+        }
+        currencies.sortInPlace()
+    }
+    
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let name = brokerNames[indexPath.section]
+        let bkrDict = bkrDicts![name] as! StringKeyDict
+        let currency = currencies[indexPath.row]
+        let netTransactions = bkrDict[currency] as! [String: NSDecimalNumber]
 
+        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, netTransactions: netTransactions, title: "\(name), \(currency)")
+    }
 }

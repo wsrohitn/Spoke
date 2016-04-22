@@ -25,7 +25,7 @@ class WheelView: UIView {
         drawCircle()
     }
     
-    class func makeInView(view: UIView, margin: CGFloat = 0.0, wheel: Wheel) -> WheelView {
+    class func makeInView(view: UIView, margin: CGFloat = 0.0, wheel: Wheel, addLabels: Bool = false) -> WheelView {
         let fMain = view.frame
         var w = fMain.width
         if fMain.width > fMain.height {
@@ -37,13 +37,16 @@ class WheelView: UIView {
         let wheelView = WheelView(frame: f, wheel: wheel)
         wheelView.displayWheel()
         
+        if addLabels {
+            wheelView.displayLabels()
+        }
+        
         view.addSubview(wheelView)
         return wheelView
     }
     
     func displayWheel() {
         displayAllPaths()
-        addLabels()
     }
     
     func drawCircle() {
@@ -88,7 +91,7 @@ class WheelView: UIView {
         circlePathLayer.addSublayer(pathLayer)
     }
     
-    func addLabels() {
+    func displayLabels() {
         let r = Double(bounds.width/2)
         let names = wheel.spokes.map( {$0.0} )
         let num = names.count

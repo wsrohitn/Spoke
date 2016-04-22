@@ -25,14 +25,11 @@ class WheelViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let myTransactions = getTransactionsFor(self.title!)
-//        let myNetTransactions = getNetTransactions(myTransactions, name: self.title!)
-//        print(myNetTransactions)
         
         let wheel = Wheel(centerLabel: "DEF", spokes: netTransactions!)
         print(wheel.maxAmount)
         
-        let wheelView = WheelView.makeInView(self.view, margin: 10, wheel: wheel)
+        let wheelView = WheelView.makeInView(self.view, margin: 10, wheel: wheel, addLabels: true)
         addTapToView(wheelView)
     }
 

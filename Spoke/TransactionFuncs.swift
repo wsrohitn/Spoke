@@ -78,11 +78,11 @@ class TransactionFuncs {
         return result
     }
     
-    static func getNetTransactions(transactions: [Transaction], name: String) -> [String: NSDecimalNumber] {
+    static func getNetTransactions(transactions: [Transaction], name: String, currency: String) -> [String: NSDecimalNumber] {
         var result = [String: NSDecimalNumber]()
-        
-        let myOutgoing = transactions.filter({$0.payer == name})
-        let myIncoming = transactions.filter({$0.payer != name})
+
+        let myOutgoing = transactions.filter({$0.payer == name && $0.currency == currency})
+        let myIncoming = transactions.filter({$0.payer != name && $0.currency == currency})
         
         let syndNames = TransactionFuncs.getSyndNames(transactions)
         let brokerNames = TransactionFuncs.getBrokerNames(transactions)
@@ -101,6 +101,18 @@ class TransactionFuncs {
         }
         
         return result
+    }
+    
+    static func getCurrencies(transactions: [Transaction]) -> [String] {
+        var currencies = [String]()
+        
+        for transaction in transactions {
+            if !currencies.contains(transaction.currency) {
+                currencies.append(transaction.currency)
+            }
+        }
+        
+        return currencies
     }
 }
 

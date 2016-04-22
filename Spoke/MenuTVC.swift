@@ -20,6 +20,8 @@ class MenuTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "BKR", style: .Plain, target: self, action: #selector(MenuTVC.clickBKR))
+        
         login = Login( forUrl: CBSettings.sharedInstance.url )
         if login.isValid {
             afterLogin()
@@ -29,6 +31,27 @@ class MenuTVC: UITableViewController {
         }
         
     }
+    
+    // TODO: Efficiency
+    func clickBKR() {
+        let currencies = TransactionFuncs.getCurrencies(testData)
+        let brokers = TransactionFuncs.getBrokerNames(testData)
+        var dict = StringKeyDict()
+        
+        for broker in brokers {
+            var bkrDict = StringKeyDict()
+            
+            for currency in currencies {
+                let transaction = TransactionFuncs.getTransactionsFor(testData, name: broker)
+                bkrDict[currency] = TransactionFuncs.getNetTransactions(transaction, name: broker, currency: currency)
+            }
+            
+            dict[broker] = bkrDict
+        }
+        
+        WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, bkrDicts: dict, title: "Brokers")
+    }
+    
     func afterLogin() {
         CBSettings.sharedInstance.setCredentials( login.userName, password : login.password )
         SyncManager.sharedInstance.startContinuousReplication(withSettings: CBSettings.sharedInstance)
@@ -113,7 +136,7 @@ class MenuTVC: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let name = names[indexPath.row]
         let transactions = TransactionFuncs.getTransactionsFor(testData, name: name)
-        let netTransactions = TransactionFuncs.getNetTransactions(transactions, name: name)
+        let netTransactions = TransactionFuncs.getNetTransactions(transactions, name: name, currency: "GBP")
         WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, netTransactions: netTransactions, title: name)
     }
 
