@@ -14,17 +14,17 @@ class WheelCVC: UICollectionViewController {
     var transactions: [Transaction]?
     
     
-    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, transactions: [Transaction], title: String) {
-        if let vc = sb.instantiateViewControllerWithIdentifier("WheelViewController") as? WheelViewController {
-            nc.pushViewController(vc, animated: true)
-            vc.setInitialState(title, transactions: transactions)
-        }
-    }
-    
-    func setInitialState(title: String, transactions: [Transaction]) {
-        self.title = title
-        self.transactions = transactions
-    }
+//    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, transactions: [Transaction], title: String) {
+//        if let vc = sb.instantiateViewControllerWithIdentifier("WheelViewController") as? WheelViewController {
+//            nc.pushViewController(vc, animated: true)
+//            vc.setInitialState(title, netTransactions: transactions)
+//        }
+//    }
+//    
+//    func setInitialState(title: String, transactions: [Transaction]) {
+//        self.title = title
+//        self.transactions = transactions
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

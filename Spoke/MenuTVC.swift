@@ -112,7 +112,9 @@ class MenuTVC: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let name = names[indexPath.row]
-        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, transactions: testData, title: name)
+        let transactions = TransactionFuncs.getTransactionsFor(testData, name: name)
+        let netTransactions = TransactionFuncs.getNetTransactions(transactions, name: name)
+        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, netTransactions: netTransactions, title: name)
     }
 
 }

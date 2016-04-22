@@ -17,6 +17,7 @@
 		C751D21C1CC7A10C003C2B5B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C751D21A1CC7A10C003C2B5B /* LaunchScreen.storyboard */; };
 		C751D2271CC7A10C003C2B5B /* SpokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C751D2261CC7A10C003C2B5B /* SpokeTests.swift */; };
 		C795CB391CCA12DC0040624A /* WheelCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C795CB381CCA12DC0040624A /* WheelCVC.swift */; };
+		C795CB3B1CCA16AF0040624A /* TransactionFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C795CB3A1CCA16AF0040624A /* TransactionFuncs.swift */; };
 		C7F4ECB11CC917AC0094EC55 /* MenuTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4ECB01CC917AC0094EC55 /* MenuTVC.swift */; };
 		C7F4ECB31CC91E160094EC55 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4ECB21CC91E160094EC55 /* CouchbaseLite.framework */; };
 		C7F4ECB51CC91E1C0094EC55 /* WsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4ECB41CC91E1C0094EC55 /* WsBase.framework */; };
@@ -49,6 +50,7 @@
 		C751D2261CC7A10C003C2B5B /* SpokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpokeTests.swift; sourceTree = "<group>"; };
 		C751D2281CC7A10C003C2B5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C795CB381CCA12DC0040624A /* WheelCVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WheelCVC.swift; sourceTree = "<group>"; };
+		C795CB3A1CCA16AF0040624A /* TransactionFuncs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionFuncs.swift; sourceTree = "<group>"; };
 		C7F4ECB01CC917AC0094EC55 /* MenuTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTVC.swift; sourceTree = "<group>"; };
 		C7F4ECB21CC91E160094EC55 /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Carthage/Build/iOS/CouchbaseLite.framework; sourceTree = "<group>"; };
 		C7F4ECB41CC91E1C0094EC55 /* WsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WsBase.framework; path = Carthage/Build/iOS/WsBase.framework; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				C7F4ECB71CC91EB40094EC55 /* CBSettings.swift */,
 				C7F4ECBB1CC91FB80094EC55 /* BridgingHeader.h */,
 				C795CB381CCA12DC0040624A /* WheelCVC.swift */,
+				C795CB3A1CCA16AF0040624A /* TransactionFuncs.swift */,
 			);
 			path = Spoke;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				C751D2121CC7A10C003C2B5B /* AppDelegate.swift in Sources */,
 				C716763A1CC7E34800CA7F8A /* Wheel.swift in Sources */,
 				C71676381CC7B7B300CA7F8A /* WheelView.swift in Sources */,
+				C795CB3B1CCA16AF0040624A /* TransactionFuncs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
