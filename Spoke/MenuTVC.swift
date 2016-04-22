@@ -10,7 +10,7 @@ import UIKit
 import WsBase
 import WsCouchBasic
 
-class MenuTVCTableViewController: UITableViewController {
+class MenuTVC: UITableViewController {
     var names: [String] = []
     
     var testData = [Transaction]()
