@@ -20,50 +20,39 @@ struct Transaction {
 
 class TransactionFuncs {
     static func getAllNames(transactions: [Transaction]) -> [String] {
-        let payers = transactions.map({$0.payer})
-        let payees = transactions.map({$0.payee})
         var names = [String]()
         
-        for name in payers {
-            if !names.contains(name) {
-                names.append(name)
+        for transaction in transactions {
+            let payee = transaction.payee
+            let payer = transaction.payer
+            
+            if !names.contains(payee) {
+                names.append(payee)
+            }
+            
+            if !names.contains(payer) {
+                names.append(payer)
             }
         }
-        
-        for name in payees {
-            if !names.contains(name) {
-                names.append(name)
-            }
-        }
-        
+        names.sortInPlace()
         return names
     }
     
-    static func getSyndNames(transactions: [Transaction]) -> [String] {
-        var result = [String]()
-        let names = TransactionFuncs.getAllNames(transactions)
+    static func getSyndAndBrokerNames(names: [String]) -> (syndNames: [String], brokerNames: [String]) {
+        var syndNames = [String]()
+        var brokerNames = [String]()
+        
         
         for name in names {
             if let _ = Int(name.substringFromIndex( name.startIndex.successor()))  {
-                result.append(name)
+                syndNames.append(name)
+            } else {
+                brokerNames.append(name)
             }
         }
-        
-        return result
-    }
-    
-    static func getBrokerNames(transactions: [Transaction]) -> [String] {
-        var result = [String]()
-        let names = TransactionFuncs.getAllNames(transactions)
-        let synds = TransactionFuncs.getSyndNames(transactions)
-        
-        for name in names {
-            if !synds.contains(name) {
-                result.append(name)
-            }
-        }
-        
-        return result
+        syndNames.sortInPlace()
+        brokerNames.sortInPlace()
+        return (syndNames, brokerNames)
     }
     
     static func getTransactionsFor(transactions: [Transaction], name: String) -> [Transaction] {
@@ -84,10 +73,10 @@ class TransactionFuncs {
         let myOutgoing = transactions.filter({$0.payer == name && $0.currency == currency})
         let myIncoming = transactions.filter({$0.payer != name && $0.currency == currency})
         
-        let syndNames = TransactionFuncs.getSyndNames(transactions)
-        let brokerNames = TransactionFuncs.getBrokerNames(transactions)
+        let allNames = TransactionFuncs.getAllNames(transactions)
+        let groupedNames = TransactionFuncs.getSyndAndBrokerNames(allNames)
         
-        let names = syndNames.contains(name) ? brokerNames : syndNames
+        let names = groupedNames.syndNames.contains(name) ? groupedNames.brokerNames : groupedNames.syndNames
         
         for x in names where x != name {
             let outgoingToX = myOutgoing.filter({ $0.payee == x})
@@ -111,7 +100,7 @@ class TransactionFuncs {
                 currencies.append(transaction.currency)
             }
         }
-        
+        currencies.sortInPlace()
         return currencies
     }
 }
