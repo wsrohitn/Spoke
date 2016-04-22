@@ -12,20 +12,20 @@ import WsBase
 private let reuseIdentifier = "WheelCVCell"
 
 class WheelCVC: UICollectionViewController {
-    var bkrDicts: StringKeyDict?
-    var brokerNames = [String]()
+    var wheels: [Wheel]?
+    var names = [String]()
     var currencies = [String]()
     
-    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, bkrDicts: StringKeyDict, title: String) {
+    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, wheels: [Wheel], title: String) {
         if let vc = sb.instantiateViewControllerWithIdentifier("WheelCVC") as? WheelCVC {
             nc.pushViewController(vc, animated: true)
-            vc.setInitialState(title, bkrDicts: bkrDicts)
+            vc.setInitialState(title, wheels: wheels)
         }
     }
     
-    func setInitialState(title: String, bkrDicts: StringKeyDict) {
+    func setInitialState(title: String, wheels: [Wheel]) {
         self.title = title
-        self.bkrDicts = bkrDicts
+        self.wheels = wheels
         getNames()
         getCurrencies()
     }
@@ -39,7 +39,7 @@ class WheelCVC: UICollectionViewController {
     }
 
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return bkrDicts!.count
+        return names.count
     }
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -48,11 +48,8 @@ class WheelCVC: UICollectionViewController {
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
-        let name = brokerNames[indexPath.section]
-        let bkrDict = bkrDicts![name] as! StringKeyDict
         
-        let netTransactions = bkrDict[currencies[indexPath.row]] as! [String: NSDecimalNumber]
-        let wheel = Wheel(centerLabel: "DEF", spokes: netTransactions)
+        let wheel = getWheel(indexPath)
         WheelView.makeInView(cell, wheel: wheel)
         return cell
     }
@@ -61,7 +58,7 @@ class WheelCVC: UICollectionViewController {
         let header = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "sectionHeader", forIndexPath: indexPath)
         header.backgroundColor = UIBranding.sharedInstance.branding.sectionHeaderBackgroundColor
         
-        let str = brokerNames[indexPath.section]
+        let str = names[indexPath.section]
         for v in header.subviews {
             if let lbl = v as? UILabel {
                 lbl.text = str
@@ -73,31 +70,37 @@ class WheelCVC: UICollectionViewController {
     }
     
     func getNames() {
-        if let dict = bkrDicts {
-            let keys = dict.keys
-            for key in keys {
-                brokerNames.append(key)
+        for name in wheels!.map( {$0.centerLabel }) {
+            if !names.contains(name) {
+                names.append(name)
             }
         }
-        brokerNames.sortInPlace()
+        names.sortInPlace()
     }
     
     func getCurrencies() {
-        let bkrDict = bkrDicts![ brokerNames[0]] as! StringKeyDict
-        
-        let keys = bkrDict.keys
-        for key in keys {
-            currencies.append(key)
+        for currency in wheels!.map( {$0.currency}) {
+            if !currencies.contains(currency) {
+                currencies.append(currency)
+            }
         }
         currencies.sortInPlace()
     }
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let name = brokerNames[indexPath.section]
-        let bkrDict = bkrDicts![name] as! StringKeyDict
+    func getWheel(indexPath: NSIndexPath) -> Wheel {
+        let name = names[indexPath.section]
         let currency = currencies[indexPath.row]
-        let netTransactions = bkrDict[currency] as! [String: NSDecimalNumber]
-
-        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, netTransactions: netTransactions, title: "\(name), \(currency)")
+        
+        let idx = wheels!.indexOf( {$0.centerLabel == name && $0.currency == currency})
+        return wheels![idx!]
+    }
+    
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+//        let name = brokerNames[indexPath.section]
+//        let bkrDict = bkrDicts![name] as! StringKeyDict
+//        let currency = currencies[indexPath.row]
+//        let netTransactions = bkrDict[currency] as! [String: NSDecimalNumber]
+//
+//        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, netTransactions: netTransactions, title: "\(name), \(currency)")
     }
 }

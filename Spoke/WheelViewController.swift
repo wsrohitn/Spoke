@@ -9,27 +9,25 @@
 import UIKit
 
 class WheelViewController: UIViewController {
-    var netTransactions: [String : NSDecimalNumber]?
+    var wheel: Wheel?
     
-    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, netTransactions: [String: NSDecimalNumber], title: String) {
+    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, wheel: Wheel, title: String) {
         if let vc = sb.instantiateViewControllerWithIdentifier("WheelViewController") as? WheelViewController {
             nc.pushViewController(vc, animated: true)
-            vc.setInitialState(title, netTransactions: netTransactions)
+            vc.setInitialState(title, wheel: wheel)
         }
     }
     
-    func setInitialState(title: String, netTransactions: [String: NSDecimalNumber]) {
+    func setInitialState(title: String, wheel: Wheel) {
         self.title = title
-        self.netTransactions = netTransactions
+        self.wheel = wheel
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(wheel!.maxAmount)
         
-        let wheel = Wheel(centerLabel: "DEF", spokes: netTransactions!)
-        print(wheel.maxAmount)
-        
-        let wheelView = WheelView.makeInView(self.view, margin: 10, wheel: wheel, addLabels: true)
+        let wheelView = WheelView.makeInView(self.view, margin: 10, wheel: wheel!, addLabels: true)
         addTapToView(wheelView)
     }
 

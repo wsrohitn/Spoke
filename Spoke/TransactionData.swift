@@ -16,8 +16,8 @@ class TransactionData {
     var currencies = [String]()
     var syndicates = [String]()
     var brokers = [String]()
-    var brokerDataSet: StringKeyDict?
-    var syndicateDataSet: StringKeyDict?
+    var brokerDataSet: [Wheel]?
+    var syndicateDataSet: [Wheel]?
     
     init() {
         loadData()
@@ -41,35 +41,79 @@ class TransactionData {
         print("we have \(transactions.count) transactions")
     }
     
-    func getNetTransactionsFor(name: String, currency: String) -> [String: NSDecimalNumber] {
-        let filteredTransactions = TransactionFuncs.getTransactionsFor(transactions, name: name)
+    func getNetTransactionsFor(name: String, currency: String) -> [NetTransaction] {
+        let filteredTransactions = TransactionFuncs.getTransactionsFor(transactions, name: name, currency: currency)
+        print("filtered transaction count is", filteredTransactions.count)
         return TransactionFuncs.getNetTransactions(filteredTransactions, name: name, currency: currency)
+        //return getWheelsFor([name], currencies: [currency])
     }
     
-    func getBrokerDataSet() -> StringKeyDict {
+    func getBrokerDataSet() -> [Wheel] {
         if brokerDataSet == nil {
-            brokerDataSet = getGroupDataSet(brokers)
+            brokerDataSet = getWheelsFor(brokers, currencies: currencies)
         }
         return brokerDataSet!
     }
     
-    func getSyndDataSet() -> StringKeyDict {
+    func getSyndDataSet() -> [Wheel] {
         if syndicateDataSet == nil {
-            syndicateDataSet = getGroupDataSet(syndicates)
+            syndicateDataSet = getGroupDataSet(syndicates, currencies: currencies)
+            //syndicateDataSet = getWheelsFor(syndicates, currencies: currencies)
         }
         return syndicateDataSet!
     }
     
-    private func getGroupDataSet(names: [String]) -> StringKeyDict {
-        var dict = StringKeyDict()
+    private func getGroupDataSet(names: [String], currencies: [String]) -> [Wheel] {
+        var wheels = [Wheel]()
         for name in names {
-            var bkrDict = StringKeyDict()
-            
             for currency in currencies {
-                bkrDict[currency] = getNetTransactionsFor(name , currency: currency)
+                let netTransactions = getNetTransactionsFor(name , currency: currency)
+                wheels.append(Wheel(centerLabel: name, spokes: netTransactions, currency: currency))
             }
-            dict[name] = bkrDict
         }
-        return dict
+        return wheels
+    }
+    
+    func getWheelsFor(names: [String], currencies: [String]) -> [Wheel] {
+        var wheels = [Wheel]()
+        let filteredTransactions = filterTransactions(names, currencies: currencies)
+        print("filtered transaction count is", filteredTransactions.count)
+        let singleTransactions = aggregateTransactions(filteredTransactions)
+        
+        for name in names {
+            for currency in currencies {
+                let netTransaction = TransactionFuncs.getNetTransactions(filteredTransactions, name: name, currency: currency)
+                let wheel = Wheel(centerLabel: name, spokes: netTransaction, currency: currency)
+                wheels.append(wheel)
+            }
+        }
+        
+        return wheels
+    }
+    
+    private func aggregateTransactions(transactions: [Transaction]) -> [Transaction] {
+        var singleTransactions = [Transaction]()
+        
+        for transaction in transactions {
+            if singleTransactions.contains( {$0.payee == transaction.payee && $0.payer == transaction.payer && $0.currency == transaction.currency} ) {
+                let idx = singleTransactions.indexOf({$0.payee == transaction.payee && $0.payer == transaction.payer && $0.currency == transaction.currency})
+                singleTransactions[idx!].addAmount(transaction.amount)
+            } else {
+                singleTransactions.append(transaction)
+            }
+        }
+        return singleTransactions
+    }
+    
+    private func filterTransactions(names: [String], currencies: [String]) -> [Transaction] {
+        var result = [Transaction]()
+        
+        for transaction in transactions {
+            if currencies.contains(transaction.currency) && (names.contains(transaction.payee) || names.contains(transaction.payer)) {
+                result.append(transaction)
+            }
+        }
+        
+        return result
     }
 }

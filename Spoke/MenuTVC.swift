@@ -18,10 +18,7 @@ class MenuTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(title: "SYND", style: .Plain, target: self, action: #selector(MenuTVC.clickSynd)),
-            UIBarButtonItem(title: "BKR", style: .Plain, target: self, action: #selector(MenuTVC.clickBKR))
-            ]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "SYND", style: .Plain, target: self, action: #selector(MenuTVC.clickSynd))
         
         login = Login( forUrl: CBSettings.sharedInstance.url )
         if login.isValid {
@@ -30,17 +27,16 @@ class MenuTVC: UITableViewController {
             self.view.userInteractionEnabled = false
             doLogin()
         }
-        
     }
     
     func clickBKR() {
-        let dict = testData!.getBrokerDataSet()
-        WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, bkrDicts: dict, title: "Brokers")
+        let wheels = testData!.getBrokerDataSet()
+        WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: wheels, title: "Brokers")
     }
     
     func clickSynd() {
-        let dict = testData!.getSyndDataSet()
-        WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, bkrDicts: dict, title: "Syndicates")
+        let wheels = testData!.getSyndDataSet()
+        WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: wheels, title: "Syndicates")
     }
     
     func afterLogin() {
@@ -87,7 +83,8 @@ class MenuTVC: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let name = testData!.names[indexPath.row]
-        let netTransactions = testData!.getNetTransactionsFor(name, currency: "GBP")
-        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, netTransactions: netTransactions, title: name)
+        let netTransaction = testData!.getNetTransactionsFor(name, currency: "GBP")
+        let wheel = Wheel(centerLabel: name, spokes: netTransaction, currency: "GBP")
+        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, wheel: wheel, title: name)
     }
 }

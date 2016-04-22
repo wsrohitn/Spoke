@@ -12,7 +12,7 @@ import UIKit
 class WheelView: UIView {
     
     var circlePathLayer = CAShapeLayer()
-    var wheel: Wheel = Wheel(centerLabel: "", spokes: [:])
+    var wheel: Wheel = Wheel(centerLabel: "", spokes: [], currency: "")
     
     init(frame: CGRect, wheel: Wheel) {
         super.init(frame: frame)
@@ -58,7 +58,7 @@ class WheelView: UIView {
     }
     
     func displayAllPaths(){
-        let amounts = wheel.spokes.map({ $0.1 })
+        let amounts = wheel.spokes.map({ $0.amount })
         let num = amounts.count
         
         for i in 0 ..< num {
@@ -93,7 +93,15 @@ class WheelView: UIView {
     
     func displayLabels() {
         let r = Double(bounds.width/2)
-        let names = wheel.spokes.map( {$0.0} )
+        var names = [String]()
+        for transaction in wheel.spokes {
+            let payee = transaction.payee
+            
+            if !names.contains(payee) {
+                names.append(payee)
+            }
+        }
+        
         let num = names.count
         
         for i in 0 ..< num {

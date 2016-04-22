@@ -12,10 +12,20 @@ struct Transaction {
     let payer: String
     let payee: String
     let amount: NSDecimalNumber
-    let currency: String
+    var currency: String
     let year: Int
     let month: Int
     let day: Int
+    
+    mutating func addAmount(amountToAdd: NSDecimalNumber) {
+        amount.decimalNumberByAdding(amountToAdd)
+    }
+}
+
+struct NetTransaction {
+    let payer: String
+    let payee: String
+    let amount: NSDecimalNumber
 }
 
 class TransactionFuncs {
@@ -55,11 +65,11 @@ class TransactionFuncs {
         return (syndNames, brokerNames)
     }
     
-    static func getTransactionsFor(transactions: [Transaction], name: String) -> [Transaction] {
+    static func getTransactionsFor(transactions: [Transaction], name: String, currency: String) -> [Transaction] {
         var result = [Transaction]()
         
         for transaction in transactions {
-            if transaction.payee == name || transaction.payer == name {
+            if (transaction.payee == name || transaction.payer == name) && transaction.currency == currency {
                 result.append(transaction)
             }
         }
@@ -67,8 +77,8 @@ class TransactionFuncs {
         return result
     }
     
-    static func getNetTransactions(transactions: [Transaction], name: String, currency: String) -> [String: NSDecimalNumber] {
-        var result = [String: NSDecimalNumber]()
+    static func getNetTransactions(transactions: [Transaction], name: String, currency: String) -> [NetTransaction] {
+        var result = [NetTransaction]()
 
         let myOutgoing = transactions.filter({$0.payer == name && $0.currency == currency})
         let myIncoming = transactions.filter({$0.payer != name && $0.currency == currency})
@@ -86,7 +96,7 @@ class TransactionFuncs {
             let incomingAmount = incomingFromX.map({$0.amount}).reduce(NSDecimalNumber.zero(), combine: { $0.decimalNumberByAdding($1) })
             let netAmount = incomingAmount.decimalNumberByAdding(outgoingAmount)
             
-            result[x] = netAmount
+            result.append(NetTransaction(payer: name, payee: x, amount: netAmount))
         }
         
         return result
@@ -104,4 +114,3 @@ class TransactionFuncs {
         return currencies
     }
 }
-
