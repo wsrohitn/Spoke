@@ -1,1 +1,2 @@
 github "whitespace-software/WsCouchBasic" "master"
+github "whitespace-software/WsBase" "master"

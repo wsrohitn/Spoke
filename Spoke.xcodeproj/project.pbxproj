@@ -24,6 +24,7 @@
 		C7F4ECB51CC91E1C0094EC55 /* WsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4ECB41CC91E1C0094EC55 /* WsBase.framework */; };
 		C7F4ECB81CC91EB40094EC55 /* CBSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4ECB71CC91EB40094EC55 /* CBSettings.swift */; };
 		C7F4ECBA1CC91F840094EC55 /* WsCouchBasic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4ECB91CC91F840094EC55 /* WsCouchBasic.framework */; };
+		C7FA160D1CCE112B00F0A64F /* TransactionSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FA160C1CCE112B00F0A64F /* TransactionSet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		C7F4ECB71CC91EB40094EC55 /* CBSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBSettings.swift; sourceTree = "<group>"; };
 		C7F4ECB91CC91F840094EC55 /* WsCouchBasic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WsCouchBasic.framework; path = Carthage/Build/iOS/WsCouchBasic.framework; sourceTree = "<group>"; };
 		C7F4ECBB1CC91FB80094EC55 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		C7FA160C1CCE112B00F0A64F /* TransactionSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionSet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				C795CB381CCA12DC0040624A /* WheelCVC.swift */,
 				C795CB3A1CCA16AF0040624A /* TransactionFuncs.swift */,
 				C795CB3C1CCA30030040624A /* TransactionData.swift */,
+				C7FA160C1CCE112B00F0A64F /* TransactionSet.swift */,
 			);
 			path = Spoke;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				C751D2141CC7A10C003C2B5B /* WheelViewController.swift in Sources */,
 				C7F4ECB11CC917AC0094EC55 /* MenuTVC.swift in Sources */,
 				C751D2121CC7A10C003C2B5B /* AppDelegate.swift in Sources */,
+				C7FA160D1CCE112B00F0A64F /* TransactionSet.swift in Sources */,
 				C795CB3D1CCA30030040624A /* TransactionData.swift in Sources */,
 				C716763A1CC7E34800CA7F8A /* Wheel.swift in Sources */,
 				C71676381CC7B7B300CA7F8A /* WheelView.swift in Sources */,

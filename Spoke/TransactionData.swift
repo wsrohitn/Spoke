@@ -68,7 +68,7 @@ class TransactionData {
         for name in names {
             for currency in currencies {
                 let netTransactions = getNetTransactionsFor(name , currency: currency)
-                wheels.append(Wheel(centerLabel: name, spokes: netTransactions, currency: currency))
+                wheels.append(Wheel(centerLabel: name, currency: currency))
             }
         }
         return wheels
@@ -83,7 +83,7 @@ class TransactionData {
         for name in names {
             for currency in currencies {
                 let netTransactions = TransactionFuncs.getNetTransactions(filteredTransactions, name: name, currency: currency)
-                let wheel = Wheel(centerLabel: name, spokes: netTransactions, currency: currency)
+                let wheel = Wheel(centerLabel: name, currency: currency)
                 wheels.append(wheel)
             }
         }

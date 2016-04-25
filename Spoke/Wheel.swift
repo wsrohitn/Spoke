@@ -7,20 +7,49 @@
 //
 //
 import Foundation
+import WsBase
 import UIKit
 
 class Wheel {
     let centerLabel: String
     let currency: String
-    let spokes: [NetTransaction]
-    let maxAmount: NSDecimalNumber
+    let isSyndicate: Bool
+    var transactions = [Transaction]()
+    var spokes = [Spoke]()
+    var maxAmount = NSDecimalNumber.zero()
     
-    init(centerLabel: String, spokes: [NetTransaction], currency: String) {
+    init(centerLabel: String, currency: String) {
         self.centerLabel = centerLabel
-        self.spokes = spokes
         self.currency = currency
-        let amounts = spokes.map( {$0.amount.abs() })
-        let sortedAmounts = amounts.sort( { $0.compare($1) == .OrderedDescending })        
-        maxAmount = sortedAmounts.count > 0 ? sortedAmounts[0] : 0
+        self.isSyndicate = Transaction.isSyndicate(centerLabel)
+    }
+    
+    func add(t: Transaction) {
+        transactions.append(t)
+    }
+    
+    func calcSpokes() {
+        spokes = []
+        for t in transactions {
+            let party = self.isSyndicate ? t.broker : t.syndicate
+            if let idx = spokes.indexOf({ $0.otherParty == party }) {
+                spokes[idx].amount = spokes[idx].amount.decimalNumberByAdding(t.s2bAmount)
+            } else {
+                let spoke = Spoke(otherParty: party, amount: t.s2bAmount)
+                spokes.append(spoke)
+            }
+        }
+        
+        maxAmount = NSDecimalNumber.zero()
+        for s in spokes {
+            if s.amount.abs() > maxAmount {
+                maxAmount = s.amount.abs()
+            }
+        }
+    }
+    
+    struct Spoke {
+        let otherParty: String
+        var amount: NSDecimalNumber
     }
 }

@@ -14,11 +14,15 @@ class MenuTVC: UITableViewController {
     
     var testData: TransactionData?
     var login = Login(forUrl: "")
+    let dataSet = TransactionSet()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "SYND", style: .Plain, target: self, action: #selector(MenuTVC.clickSynd))
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(title: "SYND", style: .Plain, target: self, action: #selector(MenuTVC.clickSynd)),
+            UIBarButtonItem(title: "BRK", style: .Plain, target: self, action: #selector(MenuTVC.clickBRK))
+        ]
         
         login = Login( forUrl: CBSettings.sharedInstance.url )
         if login.isValid {
@@ -29,13 +33,13 @@ class MenuTVC: UITableViewController {
         }
     }
     
-    func clickBKR() {
-        let wheels = testData!.getBrokerDataSet()
+    func clickBRK() {
+        let wheels =  dataSet.getBrokerDataSet() //testData!.getBrokerDataSet()
         WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: wheels, title: "Brokers")
     }
     
     func clickSynd() {
-        let wheels = testData!.getSyndDataSet()
+        let wheels = dataSet.getSyndicateDataSet() //testData!.getSyndDataSet()
         WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: wheels, title: "Syndicates")
     }
     
@@ -46,6 +50,7 @@ class MenuTVC: UITableViewController {
             print( "afterLogin", login.userName, "has", database.documentCount, "documents" )
         }
         testData = TransactionData.init()
+        dataSet.loadData()
         tableView.reloadData()
     }
     
@@ -83,8 +88,17 @@ class MenuTVC: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let name = testData!.names[indexPath.row]
-        let netTransaction = testData!.getNetTransactionsFor(name, currency: "GBP")
-        let wheel = Wheel(centerLabel: name, spokes: netTransaction, currency: "GBP")
-        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, wheel: wheel, title: name)
+        
+        if Transaction.isSyndicate(name) {
+            let wheels = dataSet.getSyndicateDataSet()
+            if let wheel = wheels.filter( { $0.currency == "GBP" } ).first {
+                WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, wheel: wheel, title: name)
+            }
+        } else {
+            let wheels = dataSet.getBrokerDataSet()
+            if let wheel = wheels.filter( { $0.currency == "GBP" } ).first {
+                WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, wheel: wheel, title: name)
+            }
+        }
     }
 }

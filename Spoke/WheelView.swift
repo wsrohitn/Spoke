@@ -12,7 +12,7 @@ import UIKit
 class WheelView: UIView {
     
     var circlePathLayer = CAShapeLayer()
-    var wheel: Wheel = Wheel(centerLabel: "", spokes: [], currency: "")
+    var wheel: Wheel = Wheel(centerLabel: "", currency: "")
     
     init(frame: CGRect, wheel: Wheel) {
         super.init(frame: frame)
@@ -95,7 +95,7 @@ class WheelView: UIView {
         let r = Double(bounds.width/2)
         var names = [String]()
         for transaction in wheel.spokes {
-            let payee = transaction.payee
+            let payee = transaction.otherParty
             
             if !names.contains(payee) {
                 names.append(payee)
