@@ -13,6 +13,7 @@ private let reuseIdentifier = "WheelCVCell"
 
 class WheelCVC: UICollectionViewController {
     var ledgers: [Ledger]?
+    var transformedLedgers = [Ledger]()
     var names = [String]()
     var currencies = [String]()
     var ratesDict = StringKeyDict()
@@ -29,9 +30,11 @@ class WheelCVC: UICollectionViewController {
     func setInitialState(title: String, wheels: [Ledger]) {
         self.title = title
         self.ledgers = wheels
+        //self.transformedLedgers = wheels
         getNames()
         getCurrencies()
         setupExchangeRates()
+        buildTransformedLedgers()
     }
 
     override func viewDidLoad() {
@@ -53,6 +56,7 @@ class WheelCVC: UICollectionViewController {
     func toggleScale() {
         scaleToggled = !scaleToggled
         print("scale toggled", scaleToggled)
+        buildTransformedLedgers()
         collectionView!.reloadData()
     }
     
@@ -69,6 +73,7 @@ class WheelCVC: UICollectionViewController {
     func toggleCurrency() {
         currencyToggled = !currencyToggled
         print("currency toggled", currencyToggled)
+        buildTransformedLedgers()
         collectionView!.reloadData()
     }
     
@@ -86,9 +91,8 @@ class WheelCVC: UICollectionViewController {
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
-        
         let ledger = getWheel(indexPath)
-        
+        cell.subviews.forEach({$0.removeFromSuperview()})
         WheelView.makeInView(cell, ledger: ledger)
         return cell
     }
@@ -126,21 +130,24 @@ class WheelCVC: UICollectionViewController {
         currencies.sortInPlace()
     }
     
-    func getTransformedLedger(ledger: Ledger) -> Ledger {
+    func buildTransformedLedgers() {
+        transformedLedgers.removeAll()
         if scaleToggled || currencyToggled {
-            let newLedger = ledger.copy() as! Ledger
-            if currencyToggled {
-                for i in 0 ..< ledger.balances.count {
-                    let amt = ledger.balances[i].amount
-                    newLedger.balances[i].amount = amt.decimalNumberByMultiplyingBy(NSDecimalNumber(double:ratesDict.getDouble(ledger.currency)))
+            for ledger in ledgers! {
+                let newLedger = ledger.copy() as! Ledger
+                if currencyToggled {
+                    for i in 0 ..< ledger.balances.count {
+                        let amt = ledger.balances[i].amount
+                        newLedger.balances[i].amount = amt.decimalNumberByMultiplyingBy(NSDecimalNumber(double: ratesDict.getDouble(ledger.currency)))
+                    }
                 }
+                if scaleToggled {
+                    newLedger.maxAmount = getGlobalMaxAmount()
+                }
+                transformedLedgers.append(newLedger)
             }
-            if scaleToggled {
-                newLedger.maxAmount = getGlobalMaxAmount()
-            }
-            return newLedger
         } else {
-            return ledger
+            transformedLedgers = ledgers!
         }
     }
     
@@ -149,7 +156,7 @@ class WheelCVC: UICollectionViewController {
         let currency = currencies[indexPath.row]
         
         if let idx = ledgers!.indexOf( {$0.owner == name && $0.currency == currency}) {
-            return getTransformedLedger( ledgers![idx] )
+            return transformedLedgers[idx]
         } else {
             print( "creating ledger for \(name) \(currency)")
             return Ledger(owner: name, currency: currency )
