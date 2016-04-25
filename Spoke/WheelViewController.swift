@@ -25,6 +25,7 @@ class WheelViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(wheel!.spokes)
         print(wheel!.maxAmount)
         
         let wheelView = WheelView.makeInView(self.view, margin: 10, wheel: wheel!, addLabels: true)

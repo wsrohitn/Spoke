@@ -78,12 +78,12 @@ class TransactionData {
         var wheels = [Wheel]()
         let filteredTransactions = filterTransactions(names, currencies: currencies)
         print("filtered transaction count is", filteredTransactions.count)
-        let singleTransactions = aggregateTransactions(filteredTransactions)
+        //let singleTransactions = aggregateTransactions(filteredTransactions)
         
         for name in names {
             for currency in currencies {
-                let netTransaction = TransactionFuncs.getNetTransactions(filteredTransactions, name: name, currency: currency)
-                let wheel = Wheel(centerLabel: name, spokes: netTransaction, currency: currency)
+                let netTransactions = TransactionFuncs.getNetTransactions(filteredTransactions, name: name, currency: currency)
+                let wheel = Wheel(centerLabel: name, spokes: netTransactions, currency: currency)
                 wheels.append(wheel)
             }
         }
@@ -91,19 +91,19 @@ class TransactionData {
         return wheels
     }
     
-    private func aggregateTransactions(transactions: [Transaction]) -> [Transaction] {
-        var singleTransactions = [Transaction]()
-        
-        for transaction in transactions {
-            if singleTransactions.contains( {$0.payee == transaction.payee && $0.payer == transaction.payer && $0.currency == transaction.currency} ) {
-                let idx = singleTransactions.indexOf({$0.payee == transaction.payee && $0.payer == transaction.payer && $0.currency == transaction.currency})
-                singleTransactions[idx!].addAmount(transaction.amount)
-            } else {
-                singleTransactions.append(transaction)
-            }
-        }
-        return singleTransactions
-    }
+//    private func aggregateTransactions(transactions: [Transaction]) -> [Transaction] {
+//        var singleTransactions = [Transaction]()
+//        
+//        for transaction in transactions {
+//            if singleTransactions.contains( {$0.payee == transaction.payee && $0.payer == transaction.payer && $0.currency == transaction.currency} ) {
+//                let idx = singleTransactions.indexOf({$0.payee == transaction.payee && $0.payer == transaction.payer && $0.currency == transaction.currency})
+//                singleTransactions[idx!].addAmount(transaction.amount)
+//            } else {
+//                singleTransactions.append(transaction)
+//            }
+//        }
+//        return singleTransactions
+//    }
     
     private func filterTransactions(names: [String], currencies: [String]) -> [Transaction] {
         var result = [Transaction]()

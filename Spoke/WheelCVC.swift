@@ -96,11 +96,8 @@ class WheelCVC: UICollectionViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-//        let name = brokerNames[indexPath.section]
-//        let bkrDict = bkrDicts![name] as! StringKeyDict
-//        let currency = currencies[indexPath.row]
-//        let netTransactions = bkrDict[currency] as! [String: NSDecimalNumber]
-//
-//        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, netTransactions: netTransactions, title: "\(name), \(currency)")
+        let wheel = getWheel(indexPath)
+        
+        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, wheel: wheel, title: "\(wheel.centerLabel), \(wheel.currency)")
     }
 }

@@ -81,14 +81,14 @@ class TransactionFuncs {
         var result = [NetTransaction]()
 
         let myOutgoing = transactions.filter({$0.payer == name && $0.currency == currency})
-        let myIncoming = transactions.filter({$0.payer != name && $0.currency == currency})
+        let myIncoming = transactions.filter({$0.payee == name && $0.currency == currency})
         
         let allNames = TransactionFuncs.getAllNames(transactions)
         let groupedNames = TransactionFuncs.getSyndAndBrokerNames(allNames)
         
         let names = groupedNames.syndNames.contains(name) ? groupedNames.brokerNames : groupedNames.syndNames
         
-        for x in names where x != name {
+        for x in names {
             let outgoingToX = myOutgoing.filter({ $0.payee == x})
             let incomingFromX = myIncoming.filter({ $0.payer == x})
             
