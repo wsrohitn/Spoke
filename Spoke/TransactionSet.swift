@@ -13,6 +13,13 @@ import WsCouchBasic
 class TransactionSet {
     var transactions = [Transaction]()
     
+    func buildMonthSubSet( year : Int, month : Int ) -> TransactionSet
+    {
+        let result = TransactionSet()
+        result.transactions.appendContentsOf( transactions.filter( {  $0.year == year && $0.month == month }))
+        return result
+    }
+    
     func getBrokerDataSet() -> [Wheel] {
         var result = [Wheel]()
         
@@ -47,39 +54,6 @@ class TransactionSet {
         return w
     }
     
-    func findWheelForSyndicate(wheels: [Wheel], t: Transaction) -> Wheel? {
-        for w in wheels {
-            if w.currency == t.currency {
-                if w.centerLabel == t.syndicate {
-                    return w
-                }
-            }
-        }
-        return nil
-    }
-    
-    func makeWheelForSyndicate(t: Transaction) -> Wheel {
-        let w = Wheel(centerLabel: t.syndicate, currency: t.currency)
-        return w
-    }
-    
-//    func getForGrouping( g : Grouping ) -> [Wheel]
-//    {
-//        var result = [Wheel]()
-//
-//        for t in transactions {
-//            if let w = findRelevantWheel( resuilt, t, g ) {
-//                w.add( t )
-//            } else {
-//                let w = makeRelevantWheel( t, g )
-//                result.add( w )]
-//                w.add( t )
-//            }
-//        }
-//        return result
-//    }
-
-    
     func getSyndicateDataSet() -> [Wheel] {
         var result = [Wheel]()
         
@@ -96,6 +70,22 @@ class TransactionSet {
             w.calcSpokes()
         }
         return result
+    }
+    
+    func findWheelForSyndicate(wheels: [Wheel], t: Transaction) -> Wheel? {
+        for w in wheels {
+            if w.currency == t.currency {
+                if w.centerLabel == t.syndicate {
+                    return w
+                }
+            }
+        }
+        return nil
+    }
+    
+    func makeWheelForSyndicate(t: Transaction) -> Wheel {
+        let w = Wheel(centerLabel: t.syndicate, currency: t.currency)
+        return w
     }
     
     func loadData() {

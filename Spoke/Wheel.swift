@@ -30,12 +30,17 @@ class Wheel {
     
     func calcSpokes() {
         spokes = []
+        for p in ( isSyndicate ? GlobalBrokers : GlobalSyndicates ) {
+            spokes.append( Spoke( otherParty: p, amount: 0))
+        }
+        
         for t in transactions {
             let party = self.isSyndicate ? t.broker : t.syndicate
+            let amount = self.isSyndicate ? t.s2bAmount : t.s2bAmount.decimalNumberByMultiplyingBy(-1)
             if let idx = spokes.indexOf({ $0.otherParty == party }) {
-                spokes[idx].amount = spokes[idx].amount.decimalNumberByAdding(t.s2bAmount)
+                spokes[idx].amount = spokes[idx].amount.decimalNumberByAdding(amount)
             } else {
-                let spoke = Spoke(otherParty: party, amount: t.s2bAmount)
+                let spoke = Spoke(otherParty: party, amount: amount)
                 spokes.append(spoke)
             }
         }

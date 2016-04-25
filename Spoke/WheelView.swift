@@ -35,19 +35,12 @@ class WheelView: UIView {
         
         let f  = CGRectMake( (fMain.width - w )/2, (fMain.height - w )/2, w, w)
         let wheelView = WheelView(frame: f, wheel: wheel)
-        wheelView.displayWheel()
-        
-        if addLabels {
-            wheelView.displayLabels()
-        }
+        wheelView.displayWheel( addLabels )
         
         view.addSubview(wheelView)
         return wheelView
     }
-    
-    func displayWheel() {
-        displayAllPaths()
-    }
+
     
     func drawCircle() {
         circlePathLayer.frame = bounds
@@ -57,13 +50,19 @@ class WheelView: UIView {
         layer.addSublayer(circlePathLayer)
     }
     
-    func displayAllPaths(){
-        let amounts = wheel.spokes.map({ $0.amount })
-        let num = amounts.count
-        
-        for i in 0 ..< num {
-            let path = getPath(calculateAngle(i, num: num), amount: amounts[i].decimalNumberByDividingBy(wheel.maxAmount))
-            addPath(path, negate: amounts[i].doubleValue < 0.0)
+    func displayWheel( addLabels : Bool ){
+        var idx = 0
+        for spoke in wheel.spokes
+        {
+            if spoke.amount != NSDecimalNumber.zero() {
+                let theta = calculateAngle(idx, num: wheel.spokes.count)
+                let path = getPath(theta, amount: spoke.amount.decimalNumberByDividingBy(wheel.maxAmount))
+                addPath(path, negate: spoke.amount.doubleValue < 0.0)
+                if addLabels {
+                    addLabel( theta, str : spoke.otherParty )
+                }
+            }
+            idx = idx + 1
         }
     }
     
@@ -74,7 +73,6 @@ class WheelView: UIView {
         let amp = abs( Double(amount) )
         let point = CGPoint(x: 2*r + amp * r * cos(theta), y: 2*r + amp * r * sin(theta) )
         path.addLineToPoint(point)
-        
         return path
     }
     
@@ -91,30 +89,15 @@ class WheelView: UIView {
         circlePathLayer.addSublayer(pathLayer)
     }
     
-    func displayLabels() {
+    func addLabel( theta : Double, str : String )
+    {
         let r = Double(bounds.width/2)
-        var names = [String]()
-        for transaction in wheel.spokes {
-            let payee = transaction.otherParty
-            
-            if !names.contains(payee) {
-                names.append(payee)
-            }
-        }
+        let point = CGPoint(x: r + r * cos(theta), y: r + r * sin(theta) )
         
-        let num = names.count
-        
-        for i in 0 ..< num {
-            let path = UIBezierPath()
-            path.moveToPoint(CGPoint(x: bounds.width/2, y: bounds.height/2))
-            let tmp = Double(i) * Double(2) * M_PI / Double(num)
-            let point = CGPoint(x: r + r * cos(tmp), y: r + r * sin(tmp) )
-            
-            let label = UILabel(frame: self.frame)
-            label.center = point
-            label.textAlignment = NSTextAlignment.Center
-            label.text = names[i]
-            self.addSubview(label)
-        }
+        let label = UILabel(frame: self.frame)
+        label.center = point
+        label.textAlignment = NSTextAlignment.Center
+        label.text = str
+        self.addSubview(label)
     }
 }

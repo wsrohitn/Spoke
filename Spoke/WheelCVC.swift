@@ -91,8 +91,12 @@ class WheelCVC: UICollectionViewController {
         let name = names[indexPath.section]
         let currency = currencies[indexPath.row]
         
-        let idx = wheels!.indexOf( {$0.centerLabel == name && $0.currency == currency})
-        return wheels![idx!]
+        if let idx = wheels!.indexOf( {$0.centerLabel == name && $0.currency == currency}) {
+            return wheels![idx]
+        } else {
+            print( "creating wheel for \(name) \(currency)")
+            return Wheel(centerLabel: name, currency: currency )
+        }
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {

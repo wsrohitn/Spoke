@@ -10,18 +10,25 @@ import UIKit
 import WsBase
 import WsCouchBasic
 
+var GlobalSyndicates = [String]()
+var GlobalBrokers = [String]()
+
 class MenuTVC: UITableViewController {
     
-    var testData: TransactionData?
+    //var testData: TransactionData?
     var login = Login(forUrl: "")
     let dataSet = TransactionSet()
+    var brokers = [String]()
+    var syndicates = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(title: "SYND", style: .Plain, target: self, action: #selector(MenuTVC.clickSynd)),
-            UIBarButtonItem(title: "BRK", style: .Plain, target: self, action: #selector(MenuTVC.clickBRK))
+            UIBarButtonItem(title: "BRK", style: .Plain, target: self, action: #selector(MenuTVC.clickBRK)),
+            UIBarButtonItem(title: "Month", style: .Plain, target: self, action: #selector(MenuTVC.clickMonth))
+
         ]
         
         login = Login( forUrl: CBSettings.sharedInstance.url )
@@ -32,6 +39,15 @@ class MenuTVC: UITableViewController {
             doLogin()
         }
     }
+    
+    func clickMonth() {
+        //let ds = dataSet.buildSubSet( { $0.year = 2016 && $0.month == 4 } )
+        let ds = dataSet.buildMonthSubSet( 2016, month:4 )
+        let wheels = ds.getBrokerDataSet()
+        WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: wheels, title: "Brokers 4/2016")
+    }
+    
+    
     
     func clickBRK() {
         let wheels =  dataSet.getBrokerDataSet() //testData!.getBrokerDataSet()
@@ -49,8 +65,14 @@ class MenuTVC: UITableViewController {
         if let database = SyncManager.sharedInstance.database {
             print( "afterLogin", login.userName, "has", database.documentCount, "documents" )
         }
-        testData = TransactionData.init()
+        //testData = TransactionData.init()
         dataSet.loadData()
+        brokers = Array(Set(dataSet.transactions.map( {$0.broker})))
+        syndicates = Array(Set(dataSet.transactions.map( {$0.syndicate})))
+
+        GlobalBrokers = brokers
+        GlobalSyndicates = syndicates
+        
         tableView.reloadData()
     }
     
@@ -72,22 +94,22 @@ class MenuTVC: UITableViewController {
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return testData!.names.count
+        return section == 0 ? syndicates.count : brokers.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("NameCell", forIndexPath: indexPath)
-        cell.textLabel?.text = testData!.names[indexPath.row]
+        cell.textLabel?.text = indexPath.section == 0 ? syndicates[indexPath.row] : brokers[indexPath.row]
 
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let name = testData!.names[indexPath.row]
+        let name = indexPath.section == 0 ? syndicates[indexPath.row] : brokers[indexPath.row]
         
         if Transaction.isSyndicate(name) {
             let wheels = dataSet.getSyndicateDataSet()
