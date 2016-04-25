@@ -29,7 +29,6 @@ class MenuTVC: UITableViewController {
             UIBarButtonItem(title: "BRK", style: .Plain, target: self, action: #selector(MenuTVC.clickBRK)),
             UIBarButtonItem(title: "Month", style: .Plain, target: self, action: #selector(MenuTVC.clickMonth)),
             UIBarButtonItem(title: "Year", style: .Plain, target: self, action: #selector(MenuTVC.clickYear))
-
         ]
         
         login = Login( forUrl: CBSettings.sharedInstance.url )
@@ -55,12 +54,12 @@ class MenuTVC: UITableViewController {
     
     
     func clickBRK() {
-        let wheels =  dataSet.getBrokerDataSet() //testData!.getBrokerDataSet()
+        let wheels =  dataSet.getBrokerDataSet()
         WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: wheels, title: "Brokers")
     }
     
     func clickSynd() {
-        let wheels = dataSet.getSyndicateDataSet() //testData!.getSyndDataSet()
+        let wheels = dataSet.getSyndicateDataSet()
         WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: wheels, title: "Syndicates")
     }
     
@@ -70,7 +69,6 @@ class MenuTVC: UITableViewController {
         if let database = SyncManager.sharedInstance.database {
             print( "afterLogin", login.userName, "has", database.documentCount, "documents" )
         }
-        //testData = TransactionData.init()
         dataSet.loadData()
         brokers = Array(Set(dataSet.transactions.map( {$0.broker})))
         syndicates = Array(Set(dataSet.transactions.map( {$0.syndicate})))

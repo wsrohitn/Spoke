@@ -10,7 +10,7 @@ import Foundation
 import WsBase
 import UIKit
 
-class Ledger {
+class Ledger: NSObject, NSCopying {
     let owner: String
     let currency: String
     let isSyndicate: Bool
@@ -18,10 +18,13 @@ class Ledger {
     var balances = [Balance]()
     var maxAmount = NSDecimalNumber.zero()
     
-    init(owner: String, currency: String) {
+    init(owner: String, currency: String, transactions: [Transaction] = [], balances: [Balance] = [], maxAmount: NSDecimalNumber = NSDecimalNumber.zero()) {
         self.owner = owner
         self.currency = currency
         self.isSyndicate = Transaction.isSyndicate(owner)
+        self.transactions = transactions
+        self.balances = balances
+        self.maxAmount = maxAmount
     }
     
     func add(t: Transaction) {
@@ -51,6 +54,11 @@ class Ledger {
                 maxAmount = s.amount.abs()
             }
         }
+    }
+    
+    func copyWithZone(zone: NSZone) -> AnyObject {
+        let copy = Ledger(owner: owner, currency: currency, transactions: transactions, balances: balances, maxAmount: maxAmount)
+        return copy
     }
     
     struct Balance {
