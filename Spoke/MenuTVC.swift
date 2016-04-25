@@ -121,9 +121,10 @@ class MenuTVC: UITableViewController {
             }
         } else {
             let wheels = dataSet.getBrokerDataSet()
-            if let ledger = wheels.filter( { $0.currency == "GBP" } ).first {
-                WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, ledger: ledger, title: name)
-            }
+            let ledgers = wheels.filter( { $0.currency == "GBP" } )
+            ThreeDeeVC.LoadVC(self.storyboard!, nc: self.navigationController!, ledgers : ledgers, title : name )
+            // WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, ledger: ledger, title: name)
+            
         }
     }
 }
