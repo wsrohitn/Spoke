@@ -12,18 +12,18 @@ import WsBase
 private let reuseIdentifier = "WheelCVCell"
 
 class WheelCVC: UICollectionViewController {
-    var wheels: [Wheel]?
+    var wheels: [Ledger]?
     var names = [String]()
     var currencies = [String]()
     
-    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, wheels: [Wheel], title: String) {
+    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, wheels: [Ledger], title: String) {
         if let vc = sb.instantiateViewControllerWithIdentifier("WheelCVC") as? WheelCVC {
             nc.pushViewController(vc, animated: true)
             vc.setInitialState(title, wheels: wheels)
         }
     }
     
-    func setInitialState(title: String, wheels: [Wheel]) {
+    func setInitialState(title: String, wheels: [Ledger]) {
         self.title = title
         self.wheels = wheels
         getNames()
@@ -49,8 +49,8 @@ class WheelCVC: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
         
-        let wheel = getWheel(indexPath)
-        WheelView.makeInView(cell, wheel: wheel)
+        let ledger = getWheel(indexPath)
+        WheelView.makeInView(cell, ledger: ledger)
         return cell
     }
     
@@ -70,7 +70,7 @@ class WheelCVC: UICollectionViewController {
     }
     
     func getNames() {
-        for name in wheels!.map( {$0.centerLabel }) {
+        for name in wheels!.map( {$0.owner }) {
             if !names.contains(name) {
                 names.append(name)
             }
@@ -87,21 +87,21 @@ class WheelCVC: UICollectionViewController {
         currencies.sortInPlace()
     }
     
-    func getWheel(indexPath: NSIndexPath) -> Wheel {
+    func getWheel(indexPath: NSIndexPath) -> Ledger {
         let name = names[indexPath.section]
         let currency = currencies[indexPath.row]
         
-        if let idx = wheels!.indexOf( {$0.centerLabel == name && $0.currency == currency}) {
+        if let idx = wheels!.indexOf( {$0.owner == name && $0.currency == currency}) {
             return wheels![idx]
         } else {
-            print( "creating wheel for \(name) \(currency)")
-            return Wheel(centerLabel: name, currency: currency )
+            print( "creating ledger for \(name) \(currency)")
+            return Ledger(owner: name, currency: currency )
         }
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let wheel = getWheel(indexPath)
+        let ledger = getWheel(indexPath)
         
-        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, wheel: wheel, title: "\(wheel.centerLabel), \(wheel.currency)")
+        WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, ledger: ledger, title: "\(ledger.owner), \(ledger.currency)")
     }
 }

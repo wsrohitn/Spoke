@@ -27,7 +27,8 @@ class MenuTVC: UITableViewController {
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(title: "SYND", style: .Plain, target: self, action: #selector(MenuTVC.clickSynd)),
             UIBarButtonItem(title: "BRK", style: .Plain, target: self, action: #selector(MenuTVC.clickBRK)),
-            UIBarButtonItem(title: "Month", style: .Plain, target: self, action: #selector(MenuTVC.clickMonth))
+            UIBarButtonItem(title: "Month", style: .Plain, target: self, action: #selector(MenuTVC.clickMonth)),
+            UIBarButtonItem(title: "Year", style: .Plain, target: self, action: #selector(MenuTVC.clickYear))
 
         ]
         
@@ -41,12 +42,16 @@ class MenuTVC: UITableViewController {
     }
     
     func clickMonth() {
-        //let ds = dataSet.buildSubSet( { $0.year = 2016 && $0.month == 4 } )
-        let ds = dataSet.buildMonthSubSet( 2016, month:4 )
+        let ds = dataSet.buildSubSet( {  $0.year == 2016 && $0.month == 4 } )
         let wheels = ds.getBrokerDataSet()
         WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: wheels, title: "Brokers 4/2016")
     }
     
+    func clickYear() {
+        let ds = dataSet.buildSubSet( {  $0.year == 2016 } )
+        let wheels = ds.getBrokerDataSet()
+        WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: wheels, title: "Brokers 2016")
+    }
     
     
     func clickBRK() {
@@ -113,13 +118,13 @@ class MenuTVC: UITableViewController {
         
         if Transaction.isSyndicate(name) {
             let wheels = dataSet.getSyndicateDataSet()
-            if let wheel = wheels.filter( { $0.currency == "GBP" } ).first {
-                WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, wheel: wheel, title: name)
+            if let ledger = wheels.filter( { $0.currency == "GBP" } ).first {
+                WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, ledger: ledger, title: name)
             }
         } else {
             let wheels = dataSet.getBrokerDataSet()
-            if let wheel = wheels.filter( { $0.currency == "GBP" } ).first {
-                WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, wheel: wheel, title: name)
+            if let ledger = wheels.filter( { $0.currency == "GBP" } ).first {
+                WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, ledger: ledger, title: name)
             }
         }
     }

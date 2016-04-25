@@ -1,5 +1,5 @@
 //
-//  Wheel.swift
+//  Ledger.swift
 //  Spoke
 //
 //  Created by Rohit Natarajan on 20/04/2016.
@@ -10,50 +10,50 @@ import Foundation
 import WsBase
 import UIKit
 
-class Wheel {
-    let centerLabel: String
+class Ledger {
+    let owner: String
     let currency: String
     let isSyndicate: Bool
     var transactions = [Transaction]()
-    var spokes = [Spoke]()
+    var balances = [Balance]()
     var maxAmount = NSDecimalNumber.zero()
     
-    init(centerLabel: String, currency: String) {
-        self.centerLabel = centerLabel
+    init(owner: String, currency: String) {
+        self.owner = owner
         self.currency = currency
-        self.isSyndicate = Transaction.isSyndicate(centerLabel)
+        self.isSyndicate = Transaction.isSyndicate(owner)
     }
     
     func add(t: Transaction) {
         transactions.append(t)
     }
     
-    func calcSpokes() {
-        spokes = []
+    func calcBalances() {
+        balances = []
         for p in ( isSyndicate ? GlobalBrokers : GlobalSyndicates ) {
-            spokes.append( Spoke( otherParty: p, amount: 0))
+            balances.append( Balance( otherParty: p, amount: 0))
         }
         
         for t in transactions {
             let party = self.isSyndicate ? t.broker : t.syndicate
             let amount = self.isSyndicate ? t.s2bAmount : t.s2bAmount.decimalNumberByMultiplyingBy(-1)
-            if let idx = spokes.indexOf({ $0.otherParty == party }) {
-                spokes[idx].amount = spokes[idx].amount.decimalNumberByAdding(amount)
+            if let idx = balances.indexOf({ $0.otherParty == party }) {
+                balances[idx].amount = balances[idx].amount.decimalNumberByAdding(amount)
             } else {
-                let spoke = Spoke(otherParty: party, amount: amount)
-                spokes.append(spoke)
+                let balance = Balance(otherParty: party, amount: amount)
+                balances.append(balance)
             }
         }
         
         maxAmount = NSDecimalNumber.zero()
-        for s in spokes {
+        for s in balances {
             if s.amount.abs() > maxAmount {
                 maxAmount = s.amount.abs()
             }
         }
     }
     
-    struct Spoke {
+    struct Balance {
         let otherParty: String
         var amount: NSDecimalNumber
     }

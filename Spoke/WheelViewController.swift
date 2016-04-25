@@ -9,26 +9,26 @@
 import UIKit
 
 class WheelViewController: UIViewController {
-    var wheel: Wheel?
+    var ledger: Ledger?
     
-    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, wheel: Wheel, title: String) {
+    static func LoadVC( sb : UIStoryboard, nc : UINavigationController, ledger: Ledger, title: String) {
         if let vc = sb.instantiateViewControllerWithIdentifier("WheelViewController") as? WheelViewController {
             nc.pushViewController(vc, animated: true)
-            vc.setInitialState(title, wheel: wheel)
+            vc.setInitialState(title, ledger: ledger)
         }
     }
     
-    func setInitialState(title: String, wheel: Wheel) {
+    func setInitialState(title: String, ledger: Ledger) {
         self.title = title
-        self.wheel = wheel
+        self.ledger = ledger
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(wheel!.spokes)
-        print(wheel!.maxAmount)
+        print(ledger!.balances)
+        print(ledger!.maxAmount)
         
-        let wheelView = WheelView.makeInView(self.view, margin: 10, wheel: wheel!, addLabels: true)
+        let wheelView = WheelView.makeInView(self.view, margin: 10, ledger: ledger!, addLabels: true)
         addTapToView(wheelView)
     }
 

@@ -12,12 +12,12 @@ import UIKit
 class WheelView: UIView {
     
     var circlePathLayer = CAShapeLayer()
-    var wheel: Wheel = Wheel(centerLabel: "", currency: "")
+    var ledger: Ledger = Ledger(owner: "", currency: "")
     
-    init(frame: CGRect, wheel: Wheel) {
+    init(frame: CGRect, ledger: Ledger) {
         super.init(frame: frame)
         drawCircle()
-        self.wheel = wheel
+        self.ledger = ledger
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -25,7 +25,7 @@ class WheelView: UIView {
         drawCircle()
     }
     
-    class func makeInView(view: UIView, margin: CGFloat = 0.0, wheel: Wheel, addLabels: Bool = false) -> WheelView {
+    class func makeInView(view: UIView, margin: CGFloat = 0.0, ledger: Ledger, addLabels: Bool = false) -> WheelView {
         let fMain = view.frame
         var w = fMain.width
         if fMain.width > fMain.height {
@@ -34,7 +34,7 @@ class WheelView: UIView {
         w = w - 2 * margin
         
         let f  = CGRectMake( (fMain.width - w )/2, (fMain.height - w )/2, w, w)
-        let wheelView = WheelView(frame: f, wheel: wheel)
+        let wheelView = WheelView(frame: f, ledger: ledger)
         wheelView.displayWheel( addLabels )
         
         view.addSubview(wheelView)
@@ -52,14 +52,14 @@ class WheelView: UIView {
     
     func displayWheel( addLabels : Bool ){
         var idx = 0
-        for spoke in wheel.spokes
+        for balance in ledger.balances
         {
-            if spoke.amount != NSDecimalNumber.zero() {
-                let theta = calculateAngle(idx, num: wheel.spokes.count)
-                let path = getPath(theta, amount: spoke.amount.decimalNumberByDividingBy(wheel.maxAmount))
-                addPath(path, negate: spoke.amount.doubleValue < 0.0)
+            if balance.amount != NSDecimalNumber.zero() {
+                let theta = calculateAngle(idx, num: ledger.balances.count)
+                let path = getPath(theta, amount: balance.amount.decimalNumberByDividingBy(ledger.maxAmount))
+                addPath(path, negate: balance.amount.doubleValue < 0.0)
                 if addLabels {
-                    addLabel( theta, str : spoke.otherParty )
+                    addLabel( theta, str : balance.otherParty )
                 }
             }
             idx = idx + 1

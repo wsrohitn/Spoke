@@ -13,15 +13,20 @@ import WsCouchBasic
 class TransactionSet {
     var transactions = [Transaction]()
     
-    func buildMonthSubSet( year : Int, month : Int ) -> TransactionSet
+//    func buildMonthSubSet( year : Int, month : Int ) -> TransactionSet
+//    {
+//        return buildSubSet( { $0.year == year && $0.month == month } )
+//    }
+    
+    func buildSubSet( fn : (Transaction) -> Bool ) -> TransactionSet
     {
         let result = TransactionSet()
-        result.transactions.appendContentsOf( transactions.filter( {  $0.year == year && $0.month == month }))
+        result.transactions.appendContentsOf( transactions.filter( fn ) )
         return result
     }
     
-    func getBrokerDataSet() -> [Wheel] {
-        var result = [Wheel]()
+    func getBrokerDataSet() -> [Ledger] {
+        var result = [Ledger]()
         
         for t in transactions {
             if let w = findWheelForBroker( result, t: t) {
@@ -33,15 +38,15 @@ class TransactionSet {
             }
         }
         for w in result {
-            w.calcSpokes()
+            w.calcBalances()
         }
         return result
     }
     
-    func findWheelForBroker(wheels: [Wheel], t: Transaction) -> Wheel? {
+    func findWheelForBroker(wheels: [Ledger], t: Transaction) -> Ledger? {
         for w in wheels {
             if w.currency == t.currency {
-                if w.centerLabel == t.broker {
+                if w.owner == t.broker {
                     return w
                 }
             }
@@ -49,13 +54,13 @@ class TransactionSet {
         return nil
     }
     
-    func makeWheelForBroker(t: Transaction) -> Wheel {
-        let w = Wheel(centerLabel: t.broker, currency: t.currency)
+    func makeWheelForBroker(t: Transaction) -> Ledger {
+        let w = Ledger(owner: t.broker, currency: t.currency)
         return w
     }
     
-    func getSyndicateDataSet() -> [Wheel] {
-        var result = [Wheel]()
+    func getSyndicateDataSet() -> [Ledger] {
+        var result = [Ledger]()
         
         for t in transactions {
             if let w = findWheelForSyndicate(result, t: t) {
@@ -67,15 +72,14 @@ class TransactionSet {
             }
         }
         for w in result {
-            w.calcSpokes()
-        }
+            w.calcBalances()        }
         return result
     }
     
-    func findWheelForSyndicate(wheels: [Wheel], t: Transaction) -> Wheel? {
+    func findWheelForSyndicate(wheels: [Ledger], t: Transaction) -> Ledger? {
         for w in wheels {
             if w.currency == t.currency {
-                if w.centerLabel == t.syndicate {
+                if w.owner == t.syndicate {
                     return w
                 }
             }
@@ -83,8 +87,8 @@ class TransactionSet {
         return nil
     }
     
-    func makeWheelForSyndicate(t: Transaction) -> Wheel {
-        let w = Wheel(centerLabel: t.syndicate, currency: t.currency)
+    func makeWheelForSyndicate(t: Transaction) -> Ledger {
+        let w = Ledger(owner: t.syndicate, currency: t.currency)
         return w
     }
     
