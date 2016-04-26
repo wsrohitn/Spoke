@@ -151,8 +151,8 @@ class ThreeDeeVC: UIViewController {
         let redMaterial = SCNMaterial()
         redMaterial.diffuse.contents = UIColor.redColor()
         
-        let text = SCNText(string: "TEST", extrusionDepth: 0.0)
-        let textNode = SCNNode(geometry: text)
+//        let text = SCNText(string: "TEST", extrusionDepth: 0.0)
+//        let textNode = SCNNode(geometry: text)
         
         var capsules = [SCNNode]()
         for i in 0 ..< num {
@@ -166,10 +166,8 @@ class ThreeDeeVC: UIViewController {
             
             capsuleNode.geometry!.materials = balances[i].amount < NSDecimalNumber.zero() ? [redMaterial] : [greenMaterial]
             capsules.append(capsuleNode)
-            capsuleNode.addChildNode(textNode)
+            //capsuleNode.addChildNode(textNode)
         }
-        
-       
         
         return capsules
     }
@@ -204,6 +202,13 @@ class ThreeDeeVC: UIViewController {
         
         let scene = SCNScene()
         sceneView.scene = scene
+        
+        if let img = UIImage(named: "graph-paper.jpg"){
+            print("got image")
+            scene.background.contents = img
+        } else {
+            print("no image :(")
+        }
         
         let camera = SCNCamera()
         let cameraNode = SCNNode()
