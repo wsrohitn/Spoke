@@ -25,10 +25,20 @@ class DisplaySettingsVC: UIViewController {
     @IBOutlet weak var opacitySlider: UISlider!
     @IBOutlet weak var spokeFormat: UISegmentedControl!
     
+    @IBOutlet weak var sliderValue: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         opacitySlider.value = DisplaySettings.sharedInstance.opacity
+        sliderValue.text! = opacitySlider.value.description
+        
+        if DisplaySettings.sharedInstance.spokeFormat == SpokeFormat.Box {
+            spokeFormat.selectedSegmentIndex = 0
+        } else if DisplaySettings.sharedInstance.spokeFormat == SpokeFormat.Capsule {
+            spokeFormat.selectedSegmentIndex = 1
+        } else {
+            spokeFormat.selectedSegmentIndex = 2
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -36,18 +46,15 @@ class DisplaySettingsVC: UIViewController {
     }
     
     @IBAction func spokeFormatChanged(sender: UISegmentedControl) {
-        if(spokeFormat.selectedSegmentIndex == 0)
-        {
+        if spokeFormat.selectedSegmentIndex == 0 {
             print("First Segment Selected")
             DisplaySettings.sharedInstance.spokeFormat = SpokeFormat.Box
         }
-        else if(spokeFormat.selectedSegmentIndex == 1)
-        {
+        else if spokeFormat.selectedSegmentIndex == 1 {
             print( "Second Segment Selected")
             DisplaySettings.sharedInstance.spokeFormat = SpokeFormat.Capsule
         }
-        else if(spokeFormat.selectedSegmentIndex == 2)
-        {
+        else if spokeFormat.selectedSegmentIndex == 2 {
             print("Third Segment Selected")
             DisplaySettings.sharedInstance.spokeFormat = SpokeFormat.Cylinder
         }
@@ -55,6 +62,6 @@ class DisplaySettingsVC: UIViewController {
 
     @IBAction func opacitySliderValue(sender: UISlider) {
         DisplaySettings.sharedInstance.opacity = opacitySlider.value
-        print(DisplaySettings.sharedInstance.opacity)
+        sliderValue.text = opacitySlider.value.description
     }
 }

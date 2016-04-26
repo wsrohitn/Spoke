@@ -118,24 +118,41 @@
                                 </connections>
                             </segmentedControl>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="o8j-v0-mLf">
-                                <rect key="frame" x="18" y="161" width="564" height="31"/>
+                                <rect key="frame" x="88" y="161" width="494" height="31"/>
                                 <connections>
                                     <action selector="opacitySliderValue:" destination="QH6-xG-fsC" eventType="valueChanged" id="2lS-iR-6uI"/>
                                 </connections>
                             </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Opacity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DbP-YX-MWO">
+                                <rect key="frame" x="20" y="165" width="60" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sliderValue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z7K-Bd-p3n">
+                                <rect key="frame" x="293" y="229" width="84" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" id="8AI-m0-vFf"/>
-                            <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" id="9XO-vf-rum"/>
+                            <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" constant="70" id="8AI-m0-vFf"/>
+                            <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" constant="70" id="9XO-vf-rum"/>
+                            <constraint firstItem="z7K-Bd-p3n" firstAttribute="centerX" secondItem="o8j-v0-mLf" secondAttribute="centerX" id="CZK-bs-8vS"/>
                             <constraint firstItem="bYE-Wp-wkZ" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" id="JOe-Kh-HWJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="o8j-v0-mLf" secondAttribute="trailing" id="Wdf-LF-a4c"/>
+                            <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="DbP-YX-MWO" secondAttribute="trailing" constant="10" id="adv-Kt-G2B"/>
                             <constraint firstItem="o8j-v0-mLf" firstAttribute="top" secondItem="bYE-Wp-wkZ" secondAttribute="bottom" constant="71" id="hOt-H2-Iny"/>
+                            <constraint firstItem="o8j-v0-mLf" firstAttribute="centerY" secondItem="DbP-YX-MWO" secondAttribute="centerY" id="hSB-iM-ZN6"/>
+                            <constraint firstItem="z7K-Bd-p3n" firstAttribute="top" secondItem="o8j-v0-mLf" secondAttribute="bottom" constant="38" id="yIF-B6-1O5"/>
                             <constraint firstItem="bYE-Wp-wkZ" firstAttribute="top" secondItem="GhC-Om-nc6" secondAttribute="bottom" constant="42" id="ybp-pt-zMw"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="opacitySlider" destination="o8j-v0-mLf" id="n8M-mx-NLY"/>
+                        <outlet property="sliderValue" destination="z7K-Bd-p3n" id="6uo-Zw-FGW"/>
                         <outlet property="spokeFormat" destination="bYE-Wp-wkZ" id="zJ0-ac-ShG"/>
                     </connections>
                 </viewController>
