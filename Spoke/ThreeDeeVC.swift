@@ -143,25 +143,33 @@ class ThreeDeeVC: UIViewController {
     func makeCapsules(origin: SCNVector3, balances: [Ledger.Balance]) -> [SCNNode] {
         let num = balances.count
         let theta = Float(2 * M_PI / Double(num))
-        let max = balances.map({$0.amount}).reduce(NSDecimalNumber.zero(), combine: { $0.abs() > $1.abs() ? $0.abs() : $1.abs()})
+        let max = balances.map({$0.amount.abs()}).reduce(NSDecimalNumber.zero(), combine: { $0 > $1 ? $0 : $1})
         
         let greenMaterial = SCNMaterial()
         greenMaterial.diffuse.contents = UIColor.greenColor()
+        
         let redMaterial = SCNMaterial()
         redMaterial.diffuse.contents = UIColor.redColor()
+        
+        let text = SCNText(string: "TEST", extrusionDepth: 0.0)
+        let textNode = SCNNode(geometry: text)
         
         var capsules = [SCNNode]()
         for i in 0 ..< num {
             let height = balances[i].amount.abs().decimalNumberByDividingBy(max)
             let capsuleGeom = SCNCapsule(capRadius: 0.025, height: CGFloat(height.floatValue))
-            print("Height is", CGFloat(height.floatValue))
             let capsuleNode = SCNNode(geometry: capsuleGeom)
+            
             capsuleNode.position = origin
             capsuleNode.pivot = SCNMatrix4MakeTranslation(0.0, height.floatValue/2.0, 0.0)
             capsuleNode.eulerAngles = SCNVector3(x: Float(M_PI_2), y: Float(i) * theta, z: 0.0)
+            
             capsuleNode.geometry!.materials = balances[i].amount < NSDecimalNumber.zero() ? [redMaterial] : [greenMaterial]
             capsules.append(capsuleNode)
+            capsuleNode.addChildNode(textNode)
         }
+        
+       
         
         return capsules
     }
@@ -173,6 +181,24 @@ class ThreeDeeVC: UIViewController {
     }
     
     func makeAllWheels() {
+        let scene = makeScene()
+        
+        var i = Float(0.0)
+        for ledger in ledgers {
+            let wheel = getWheelFromLedger(ledger, origin: SCNVector3(x: 0.0, y: 0.0 + i, z: 0.0))
+            scene.rootNode.addChildNode(wheel.cylinder)
+            for capsule in wheel.capsules {
+                scene.rootNode.addChildNode(capsule)
+            }
+            i += 0.6
+        }
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    func makeScene() -> SCNScene {
         let sceneView = SCNView(frame: self.view.frame)
         self.view.addSubview(sceneView)
         
@@ -199,25 +225,15 @@ class ThreeDeeVC: UIViewController {
         scene.rootNode.addChildNode(cameraNode)
         sceneView.allowsCameraControl = true
         
-        var target: SCNNode?
-        var i = Float(0.0)
-        for ledger in ledgers {
-            let wheel = getWheelFromLedger(ledger, origin: SCNVector3(x: 0.0, y: 0.0 + i, z: 0.0))
-            scene.rootNode.addChildNode(wheel.cylinder)
-            for capsule in wheel.capsules {
-                scene.rootNode.addChildNode(capsule)
-            }
-            i += 0.6
-            target = wheel.cylinder
-        }
+        let geom = SCNSphere(radius: 0.0)
+        let sphereNode = SCNNode(geometry: geom)
+        sphereNode.position = SCNVector3(x: 0.0, y: 1.2, z: 0.0)
         
-        let constraint = SCNLookAtConstraint(target: target!)
+        let constraint = SCNLookAtConstraint(target: sphereNode)
         constraint.gimbalLockEnabled = true
         cameraNode.constraints = [constraint]
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        
+        return scene
     }
     
     private func showData(ledgers: [Ledger] ) {
