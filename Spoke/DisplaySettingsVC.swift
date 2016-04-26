@@ -34,6 +34,24 @@ class DisplaySettingsVC: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    @IBAction func spokeFormatChanged(sender: UISegmentedControl) {
+        if(spokeFormat.selectedSegmentIndex == 0)
+        {
+            print("First Segment Selected")
+            DisplaySettings.sharedInstance.spokeFormat = SpokeFormat.Box
+        }
+        else if(spokeFormat.selectedSegmentIndex == 1)
+        {
+            print( "Second Segment Selected")
+            DisplaySettings.sharedInstance.spokeFormat = SpokeFormat.Capsule
+        }
+        else if(spokeFormat.selectedSegmentIndex == 2)
+        {
+            print("Third Segment Selected")
+            DisplaySettings.sharedInstance.spokeFormat = SpokeFormat.Cylinder
+        }
+    }
 
     @IBAction func opacitySliderValue(sender: UISlider) {
         DisplaySettings.sharedInstance.opacity = opacitySlider.value

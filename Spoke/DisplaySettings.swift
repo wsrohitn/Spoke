@@ -8,15 +8,15 @@
 
 import Foundation
 
+enum SpokeFormat {
+    case Capsule
+    case Box
+    case Cylinder
+}
+
 class DisplaySettings {
     static let sharedInstance = DisplaySettings()
     
     var opacity: Float = 0.5
-    var spokeFormat = SpokeFormat.Capsule
-    
-    enum SpokeFormat {
-        case Capsule
-        case Box
-        case Cylinder
-    }
+    var spokeFormat = SpokeFormat.Box
 }

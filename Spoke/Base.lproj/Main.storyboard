@@ -113,6 +113,9 @@
                                     <segment title="Capsule"/>
                                     <segment title="Cylinder"/>
                                 </segments>
+                                <connections>
+                                    <action selector="spokeFormatChanged:" destination="QH6-xG-fsC" eventType="valueChanged" id="AUu-0l-hsj"/>
+                                </connections>
                             </segmentedControl>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="o8j-v0-mLf">
                                 <rect key="frame" x="18" y="161" width="564" height="31"/>
