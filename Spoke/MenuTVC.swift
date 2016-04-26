@@ -27,7 +27,8 @@ class MenuTVC: UITableViewController {
             UIBarButtonItem(title: "SYND", style: .Plain, target: self, action: #selector(MenuTVC.clickSynd)),
             UIBarButtonItem(title: "BRK", style: .Plain, target: self, action: #selector(MenuTVC.clickBRK)),
             UIBarButtonItem(title: "Month", style: .Plain, target: self, action: #selector(MenuTVC.clickMonth)),
-            UIBarButtonItem(title: "Year", style: .Plain, target: self, action: #selector(MenuTVC.clickYear))
+            UIBarButtonItem(title: "Year", style: .Plain, target: self, action: #selector(MenuTVC.clickYear)),
+            UIBarButtonItem(title: "Settings", style: .Plain, target: self, action: #selector(MenuTVC.clickSettings))
         ]
         
         login = Login( forUrl: CBSettings.sharedInstance.url )
@@ -37,6 +38,10 @@ class MenuTVC: UITableViewController {
             self.view.userInteractionEnabled = false
             doLogin()
         }
+    }
+    
+    func clickSettings() {
+        DisplaySettingsVC.LoadVC(self.storyboard!, nc: self.navigationController! , title: "Display Settings")
     }
     
     func clickMonth() {

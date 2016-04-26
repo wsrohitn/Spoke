@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jX2-WM-ueM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jX2-WM-ueM">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Wheel View Controller-->
@@ -90,6 +91,55 @@
             </objects>
             <point key="canvasLocation" x="-14" y="145"/>
         </scene>
+        <!--Display SettingsVC-->
+        <scene sceneID="unZ-WI-Uzx">
+            <objects>
+                <viewController storyboardIdentifier="DisplaySettingsVC" id="QH6-xG-fsC" customClass="DisplaySettingsVC" customModule="Spoke" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GhC-Om-nc6"/>
+                        <viewControllerLayoutGuide type="bottom" id="Vew-iy-29j"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="HUm-jk-36q">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bYE-Wp-wkZ">
+                                <rect key="frame" x="20" y="62" width="222" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="222" id="brg-rA-lfy"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Box"/>
+                                    <segment title="Capsule"/>
+                                    <segment title="Cylinder"/>
+                                </segments>
+                            </segmentedControl>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="o8j-v0-mLf">
+                                <rect key="frame" x="18" y="161" width="564" height="31"/>
+                                <connections>
+                                    <action selector="opacitySliderValue:" destination="QH6-xG-fsC" eventType="valueChanged" id="2lS-iR-6uI"/>
+                                </connections>
+                            </slider>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" id="8AI-m0-vFf"/>
+                            <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" id="9XO-vf-rum"/>
+                            <constraint firstItem="bYE-Wp-wkZ" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" id="JOe-Kh-HWJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="o8j-v0-mLf" secondAttribute="trailing" id="Wdf-LF-a4c"/>
+                            <constraint firstItem="o8j-v0-mLf" firstAttribute="top" secondItem="bYE-Wp-wkZ" secondAttribute="bottom" constant="71" id="hOt-H2-Iny"/>
+                            <constraint firstItem="bYE-Wp-wkZ" firstAttribute="top" secondItem="GhC-Om-nc6" secondAttribute="bottom" constant="42" id="ybp-pt-zMw"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="opacitySlider" destination="o8j-v0-mLf" id="n8M-mx-NLY"/>
+                        <outlet property="spokeFormat" destination="bYE-Wp-wkZ" id="zJ0-ac-ShG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nHb-t3-DZE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-14" y="884"/>
+        </scene>
         <!--Three DeeVC-->
         <scene sceneID="Vwg-Fl-3kQ">
             <objects>
@@ -106,7 +156,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3UP-bW-YcV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-124" y="883"/>
+            <point key="canvasLocation" x="683" y="884"/>
         </scene>
         <!--MenuTVC-->
         <scene sceneID="YEB-sJ-dWQ">

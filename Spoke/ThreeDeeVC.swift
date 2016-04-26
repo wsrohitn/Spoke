@@ -130,7 +130,7 @@ class ThreeDeeVC: UIViewController {
         let cylinderGeom = SCNCylinder(radius: 1.0, height: 0.01)
         
         let cylinderNode = SCNNode(geometry: cylinderGeom)
-        cylinderNode.opacity = 0.85
+        cylinderNode.opacity = CGFloat(DisplaySettings.sharedInstance.opacity)
         cylinderNode.position = origin
         
         let grayMaterial = SCNMaterial()
