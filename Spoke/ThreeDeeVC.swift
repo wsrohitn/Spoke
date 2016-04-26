@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WsBase
 import SceneKit
 
 class ThreeDeeVC: UIViewController {
@@ -29,7 +30,10 @@ class ThreeDeeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sceneKitTut()
+        
+        makeAllWheels()
+        
+        //sceneKitTut()
         //showData( ledgers )
     }
     
@@ -44,7 +48,6 @@ class ThreeDeeVC: UIViewController {
         let cameraNode = SCNNode()
         cameraNode.camera = camera
         cameraNode.position = SCNVector3(x: -3.0, y: 3.0, z: 3.0)
-        //cameraNode.position = SCNVector3(x: 0.0, y: 3.0, z: 0.0)
         
         let light = SCNLight()
         light.type = SCNLightTypeOmni
@@ -121,6 +124,96 @@ class ThreeDeeVC: UIViewController {
         }
         
         return cylinders
+    }
+    
+    func makeCylinder(origin: SCNVector3) -> SCNNode {
+        let cylinderGeom = SCNCylinder(radius: 1.0, height: 0.01)
+        
+        let cylinderNode = SCNNode(geometry: cylinderGeom)
+        cylinderNode.opacity = 0.85
+        cylinderNode.position = origin
+        
+        let grayMaterial = SCNMaterial()
+        grayMaterial.diffuse.contents = UIColor.lightGrayColor()
+        cylinderNode.geometry!.materials = [grayMaterial]
+        
+        return cylinderNode
+    }
+    
+    func makeCapsules(origin: SCNVector3, balances: [Ledger.Balance]) -> [SCNNode] {
+        let num = balances.count
+        let theta = Float(2 * M_PI / Double(num))
+        let max = balances.map({$0.amount}).reduce(NSDecimalNumber.zero(), combine: { $0.abs() > $1.abs() ? $0.abs() : $1.abs()})
+        
+        let greenMaterial = SCNMaterial()
+        greenMaterial.diffuse.contents = UIColor.greenColor()
+        let redMaterial = SCNMaterial()
+        redMaterial.diffuse.contents = UIColor.redColor()
+        
+        var capsules = [SCNNode]()
+        for i in 0 ..< num {
+            let height = balances[i].amount.abs().decimalNumberByDividingBy(max)
+            let capsuleGeom = SCNCapsule(capRadius: 0.025, height: CGFloat(height.floatValue))
+            print("Height is", CGFloat(height.floatValue))
+            let capsuleNode = SCNNode(geometry: capsuleGeom)
+            capsuleNode.position = origin
+            capsuleNode.pivot = SCNMatrix4MakeTranslation(0.0, height.floatValue/2.0, 0.0)
+            capsuleNode.eulerAngles = SCNVector3(x: Float(M_PI_2), y: Float(i) * theta, z: 0.0)
+            capsuleNode.geometry!.materials = balances[i].amount < NSDecimalNumber.zero() ? [redMaterial] : [greenMaterial]
+            capsules.append(capsuleNode)
+        }
+        
+        return capsules
+    }
+    
+    func getWheelFromLedger(ledger: Ledger, origin: SCNVector3) -> (cylinder: SCNNode, capsules: [SCNNode]) {
+        let cylinder = makeCylinder(origin)
+        let capsules = makeCapsules(origin, balances: ledger.balances)
+        return (cylinder, capsules)
+    }
+    
+    func makeAllWheels() {
+        let sceneView = SCNView(frame: self.view.frame)
+        self.view.addSubview(sceneView)
+        
+        let scene = SCNScene()
+        sceneView.scene = scene
+        
+        let camera = SCNCamera()
+        let cameraNode = SCNNode()
+        cameraNode.camera = camera
+        cameraNode.position = SCNVector3(x: -3.0, y: 3.0, z: 3.0)
+        
+        let light = SCNLight()
+        light.type = SCNLightTypeOmni
+        let lightNode = SCNNode()
+        lightNode.light = light
+        lightNode.position = SCNVector3(x: 1.5, y: 1.5, z: 1.5)
+        
+        let ambientLight = SCNLight()
+        ambientLight.type = SCNLightTypeAmbient
+        ambientLight.color = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
+        cameraNode.light = ambientLight
+        
+        scene.rootNode.addChildNode(lightNode)
+        scene.rootNode.addChildNode(cameraNode)
+        sceneView.allowsCameraControl = true
+        
+        var target: SCNNode?
+        var i = Float(0.0)
+        for ledger in ledgers {
+            let wheel = getWheelFromLedger(ledger, origin: SCNVector3(x: 0.0, y: 0.0 + i, z: 0.0))
+            scene.rootNode.addChildNode(wheel.cylinder)
+            for capsule in wheel.capsules {
+                scene.rootNode.addChildNode(capsule)
+            }
+            i += 0.6
+            target = wheel.cylinder
+        }
+        
+        let constraint = SCNLookAtConstraint(target: target!)
+        constraint.gimbalLockEnabled = true
+        cameraNode.constraints = [constraint]
     }
 
     override func didReceiveMemoryWarning() {

@@ -15,7 +15,6 @@ var GlobalBrokers = [String]()
 
 class MenuTVC: UITableViewController {
     
-    //var testData: TransactionData?
     var login = Login(forUrl: "")
     let dataSet = TransactionSet()
     var brokers = [String]()
@@ -116,12 +115,12 @@ class MenuTVC: UITableViewController {
         
         if Transaction.isSyndicate(name) {
             let wheels = dataSet.getSyndicateDataSet()
-            if let ledger = wheels.filter( { $0.currency == "GBP" } ).first {
+            if let ledger = wheels.filter( { $0.owner == name && $0.currency == "GBP" } ).first {
                 WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, ledger: ledger, title: name)
             }
         } else {
             let wheels = dataSet.getBrokerDataSet()
-            let ledgers = wheels.filter( { $0.currency == "GBP" } )
+            let ledgers = wheels.filter( { $0.owner == name } )
             ThreeDeeVC.LoadVC(self.storyboard!, nc: self.navigationController!, ledgers : ledgers, title : name )
             // WheelViewController.LoadVC(self.storyboard!, nc: self.navigationController!, ledger: ledger, title: name)
             
