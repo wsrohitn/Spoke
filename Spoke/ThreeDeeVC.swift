@@ -75,11 +75,15 @@ class ThreeDeeVC: UIViewController {
         cameraNode.constraints = [constraint]
         scene.rootNode.addChildNode(lightNode)
         scene.rootNode.addChildNode(cameraNode)
+        sceneView.allowsCameraControl = true
     }
     
     func makeCapsules(num: Int, origin: SCNVector3) -> [SCNNode] {
         let capsuleGeom = SCNCapsule(capRadius: 0.025, height: 1.0)
         let theta = Float(2 * M_PI / Double(num))
+        
+        let greenMaterial = SCNMaterial()
+        greenMaterial.diffuse.contents = UIColor.greenColor()
         
         let redMaterial = SCNMaterial()
         redMaterial.diffuse.contents = UIColor.redColor()
@@ -104,15 +108,15 @@ class ThreeDeeVC: UIViewController {
         let y = origin.y
         let z = origin.z
         
-        let greenMaterial = SCNMaterial()
-        greenMaterial.diffuse.contents = UIColor.greenColor()
+        let grayMaterial = SCNMaterial()
+        grayMaterial.diffuse.contents = UIColor.lightGrayColor()
         
         var cylinders = [SCNNode]()
         for i in 0 ..< num {
             let cylinderNode = SCNNode(geometry: cylinderGeom)
             cylinderNode.opacity = 0.85
             cylinderNode.position = SCNVector3(x: x, y: y + Float(i) * spacing, z: z)
-            cylinderNode.geometry!.materials = [greenMaterial]
+            cylinderNode.geometry!.materials = [grayMaterial]
             cylinders.append(cylinderNode)
         }
         
@@ -135,16 +139,5 @@ class ThreeDeeVC: UIViewController {
             m_scene!.setData(ledgers)
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
