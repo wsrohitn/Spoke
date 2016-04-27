@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import WsBase
 
 enum SpokeFormat {
     case Capsule
@@ -24,4 +25,35 @@ class DisplaySettings {
     var diskColor: String = "565656"
     var positiveSpokeColor: String = "FF0000"
     var negativeSpokeColor: String = "00FF00"
+    
+    func getDiskColor() -> UIColor {
+        return getColorFromHex(diskColor)
+    }
+    
+    func getPosSpokeColor() -> UIColor {
+        return getColorFromHex(positiveSpokeColor)
+    }
+    
+    func getNegSpokeColor() -> UIColor {
+        return getColorFromHex(negativeSpokeColor)
+    }
+    
+    private func getColorFromHex(hex: String) -> UIColor {
+        
+        if hex.length() != 6 {
+            return UIColor.lightGrayColor()
+        }
+        
+        let rString = hex.substringToIndex(hex.startIndex.advancedBy(2))
+        let gString = hex.substringWithRange( Range(start: hex.startIndex.advancedBy(2), end: hex.startIndex.advancedBy(4) ))
+        let bString = hex.substringFromIndex(hex.startIndex.advancedBy(4))
+        
+        var r:CUnsignedInt = 0, g:CUnsignedInt = 0, b:CUnsignedInt = 0;
+        
+        NSScanner(string: rString).scanHexInt(&r)
+        NSScanner(string: gString).scanHexInt(&g)
+        NSScanner(string: bString).scanHexInt(&b)
+        
+        return UIColor.makeColour(Int(r), Int(g), Int(b))
+    }
 }

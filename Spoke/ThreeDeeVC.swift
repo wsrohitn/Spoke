@@ -40,9 +40,9 @@ class ThreeDeeVC: UIViewController {
         cylinderNode.opacity = CGFloat(DisplaySettings.sharedInstance.opacity)
         cylinderNode.position = origin
         
-        let grayMaterial = SCNMaterial()
-        grayMaterial.diffuse.contents = UIColor.lightGrayColor()
-        cylinderNode.geometry!.materials = [grayMaterial]
+        let diskMaterial = SCNMaterial()
+        diskMaterial.diffuse.contents = DisplaySettings.sharedInstance.getDiskColor()
+        cylinderNode.geometry!.materials = [diskMaterial]
         
         return cylinderNode
     }
@@ -53,10 +53,10 @@ class ThreeDeeVC: UIViewController {
         let max = balances.map({$0.amount.abs()}).reduce(NSDecimalNumber.zero(), combine: { $0 > $1 ? $0 : $1})
         
         let positiveMaterial = SCNMaterial()
-        positiveMaterial.diffuse.contents = UIColor.greenColor()
+        positiveMaterial.diffuse.contents = DisplaySettings.sharedInstance.getPosSpokeColor() //UIColor.greenColor()
         
         let negativeMaterial = SCNMaterial()
-        negativeMaterial.diffuse.contents = UIColor.redColor()
+        negativeMaterial.diffuse.contents = DisplaySettings.sharedInstance.getNegSpokeColor() //UIColor.redColor()
         
         var capsules = [SCNNode]()
         for i in 0 ..< num {

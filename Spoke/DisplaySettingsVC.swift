@@ -31,6 +31,10 @@ class DisplaySettingsVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var negativeSpokeColor: UITextField!
     @IBOutlet weak var positiveSpokeColor: UITextField!
     
+    @IBOutlet weak var diskView: UIView!
+    @IBOutlet weak var posSpokeView: UIView!
+    @IBOutlet weak var negSpokeView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         opacitySlider.value = DisplaySettings.sharedInstance.opacity
@@ -51,6 +55,10 @@ class DisplaySettingsVC: UIViewController, UITextFieldDelegate {
         diskBG.text = DisplaySettings.sharedInstance.diskColor
         positiveSpokeColor.text = DisplaySettings.sharedInstance.positiveSpokeColor
         negativeSpokeColor.text = DisplaySettings.sharedInstance.negativeSpokeColor
+        
+        diskView.backgroundColor = DisplaySettings.sharedInstance.getDiskColor()
+        posSpokeView.backgroundColor = DisplaySettings.sharedInstance.getPosSpokeColor()
+        negSpokeView.backgroundColor = DisplaySettings.sharedInstance.getNegSpokeColor()
         
         print(UIColor.lightGrayColor().makeCSV())
     }
@@ -77,18 +85,20 @@ class DisplaySettingsVC: UIViewController, UITextFieldDelegate {
     @IBAction func diskEditEnded(sender: UITextField) {
         DisplaySettings.sharedInstance.diskColor = diskBG.text!
         print(DisplaySettings.sharedInstance.diskColor)
+        diskView.backgroundColor = DisplaySettings.sharedInstance.getDiskColor()
     }
     
     @IBAction func posSpokeEditEnded(sender: UITextField) {
         DisplaySettings.sharedInstance.positiveSpokeColor = positiveSpokeColor.text!
         print(DisplaySettings.sharedInstance.positiveSpokeColor)
+        posSpokeView.backgroundColor = DisplaySettings.sharedInstance.getPosSpokeColor()
     }
     
     @IBAction func negSpokeEditEnd(sender: UITextField) {
         DisplaySettings.sharedInstance.negativeSpokeColor = negativeSpokeColor.text!
         print(DisplaySettings.sharedInstance.negativeSpokeColor)
+        negSpokeView.backgroundColor = DisplaySettings.sharedInstance.getNegSpokeColor()
     }
-    
     
     func textFieldShouldReturn(userText: UITextField) -> Bool {
         diskBG.resignFirstResponder()

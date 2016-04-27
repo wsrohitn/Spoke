@@ -165,28 +165,66 @@
                                     </textField>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Zk7-bb-iL1">
+                                <rect key="frame" x="20" y="353" width="560" height="128"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="faT-To-tO4">
+                                        <rect key="frame" x="0.0" y="0.0" width="187" height="128"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fqb-wK-uFt">
+                                        <rect key="frame" x="187" y="0.0" width="186" height="128"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P3R-ic-21M">
+                                        <rect key="frame" x="373" y="0.0" width="187" height="128"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="P3R-ic-21M" firstAttribute="leading" secondItem="Fqb-wK-uFt" secondAttribute="trailing" id="4FM-3e-p9l"/>
+                                    <constraint firstAttribute="trailing" secondItem="P3R-ic-21M" secondAttribute="trailing" id="Hqp-LJ-spL"/>
+                                    <constraint firstItem="faT-To-tO4" firstAttribute="top" secondItem="Zk7-bb-iL1" secondAttribute="top" id="Q5V-bu-XUW"/>
+                                    <constraint firstItem="faT-To-tO4" firstAttribute="leading" secondItem="Zk7-bb-iL1" secondAttribute="leading" id="SXV-bF-Fiq"/>
+                                    <constraint firstItem="Fqb-wK-uFt" firstAttribute="top" secondItem="Zk7-bb-iL1" secondAttribute="top" id="Y3T-JP-gZE"/>
+                                    <constraint firstItem="P3R-ic-21M" firstAttribute="top" secondItem="Zk7-bb-iL1" secondAttribute="top" id="dUZ-L7-jYA"/>
+                                    <constraint firstItem="Fqb-wK-uFt" firstAttribute="leading" secondItem="faT-To-tO4" secondAttribute="trailing" id="mIV-B2-lhx"/>
+                                    <constraint firstAttribute="bottom" secondItem="P3R-ic-21M" secondAttribute="bottom" id="mTf-na-IvM"/>
+                                    <constraint firstAttribute="bottom" secondItem="Fqb-wK-uFt" secondAttribute="bottom" id="oFX-Sn-oig"/>
+                                    <constraint firstAttribute="bottom" secondItem="faT-To-tO4" secondAttribute="bottom" id="peE-83-yn0"/>
+                                    <constraint firstItem="P3R-ic-21M" firstAttribute="leading" secondItem="Fqb-wK-uFt" secondAttribute="trailing" id="u7e-18-N8k"/>
+                                    <constraint firstItem="Fqb-wK-uFt" firstAttribute="leading" secondItem="faT-To-tO4" secondAttribute="trailing" id="xJH-ar-Ccx"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" constant="70" id="8AI-m0-vFf"/>
                             <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" constant="70" id="9XO-vf-rum"/>
                             <constraint firstItem="z7K-Bd-p3n" firstAttribute="centerX" secondItem="o8j-v0-mLf" secondAttribute="centerX" id="CZK-bs-8vS"/>
+                            <constraint firstItem="Vew-iy-29j" firstAttribute="top" secondItem="Zk7-bb-iL1" secondAttribute="bottom" constant="119" id="Ehy-QF-zzp"/>
                             <constraint firstItem="bYE-Wp-wkZ" firstAttribute="top" secondItem="GhC-Om-nc6" secondAttribute="bottom" constant="40" id="GqP-Vr-lk0"/>
                             <constraint firstItem="bYE-Wp-wkZ" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" id="JOe-Kh-HWJ"/>
+                            <constraint firstItem="Zk7-bb-iL1" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" id="T14-3o-CDd"/>
                             <constraint firstAttribute="trailingMargin" secondItem="o8j-v0-mLf" secondAttribute="trailing" id="Wdf-LF-a4c"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Zk7-bb-iL1" secondAttribute="trailing" id="Xtf-w0-Zp6"/>
                             <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="DbP-YX-MWO" secondAttribute="trailing" constant="10" id="adv-Kt-G2B"/>
                             <constraint firstItem="MTc-Wc-KPq" firstAttribute="top" secondItem="z7K-Bd-p3n" secondAttribute="bottom" constant="40" id="fVx-oP-kSW"/>
                             <constraint firstItem="o8j-v0-mLf" firstAttribute="top" secondItem="bYE-Wp-wkZ" secondAttribute="bottom" constant="71" id="hOt-H2-Iny"/>
                             <constraint firstItem="o8j-v0-mLf" firstAttribute="centerY" secondItem="DbP-YX-MWO" secondAttribute="centerY" id="hSB-iM-ZN6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="MTc-Wc-KPq" secondAttribute="trailing" id="pGo-Fr-6GV"/>
+                            <constraint firstItem="Zk7-bb-iL1" firstAttribute="top" secondItem="MTc-Wc-KPq" secondAttribute="bottom" constant="35" id="qC5-eL-lnK"/>
                             <constraint firstItem="MTc-Wc-KPq" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" id="w3F-pb-uKI"/>
                             <constraint firstItem="z7K-Bd-p3n" firstAttribute="top" secondItem="o8j-v0-mLf" secondAttribute="bottom" constant="38" id="yIF-B6-1O5"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="diskBG" destination="JOd-aP-F0z" id="yNe-92-xh7"/>
+                        <outlet property="diskView" destination="faT-To-tO4" id="H7r-Be-1jM"/>
+                        <outlet property="negSpokeView" destination="P3R-ic-21M" id="LBm-QC-KUW"/>
                         <outlet property="negativeSpokeColor" destination="KWs-TG-bdO" id="Iz2-LC-wz5"/>
                         <outlet property="opacitySlider" destination="o8j-v0-mLf" id="n8M-mx-NLY"/>
+                        <outlet property="posSpokeView" destination="Fqb-wK-uFt" id="5sa-ZJ-tcp"/>
                         <outlet property="positiveSpokeColor" destination="xjg-Wm-L7V" id="HD1-0x-hpg"/>
                         <outlet property="sliderValue" destination="z7K-Bd-p3n" id="6uo-Zw-FGW"/>
                         <outlet property="spokeFormat" destination="bYE-Wp-wkZ" id="zJ0-ac-ShG"/>
