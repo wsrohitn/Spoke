@@ -114,7 +114,7 @@ class GridVC: UIViewController {
         let camera = SCNCamera()
         let cameraNode = SCNNode()
         cameraNode.camera = camera
-        cameraNode.position = SCNVector3(x: -3.0, y: 3.0, z: 3.0)
+        cameraNode.position = SCNVector3(x: 0.1 * Float(ledgers[0].balances.count), y: 0.0, z: 0.15 * Float(ledgers.count)) //SCNVector3(x: -3.0, y: 3.0, z: 3.0)
         
         let light = SCNLight()
         light.type = SCNLightTypeOmni
@@ -131,13 +131,13 @@ class GridVC: UIViewController {
         scene.rootNode.addChildNode(cameraNode)
         sceneView.allowsCameraControl = true
         
-        let geom = SCNSphere(radius: 0.0)
-        let sphereNode = SCNNode(geometry: geom)
-        sphereNode.position = SCNVector3(x: 0.1 * Float(ledgers[0].balances.count), y: 0.0, z: 0.15 * Float(ledgers.count))
-        
-        let constraint = SCNLookAtConstraint(target: sphereNode)
-        constraint.gimbalLockEnabled = true
-        cameraNode.constraints = [constraint]
+//        let geom = SCNSphere(radius: 0.0)
+//        let sphereNode = SCNNode(geometry: geom)
+//        sphereNode.position = SCNVector3(x: 0.1 * Float(ledgers[0].balances.count), y: 0.0, z: 0.15 * Float(ledgers.count))
+//        
+//        let constraint = SCNLookAtConstraint(target: sphereNode)
+//        constraint.gimbalLockEnabled = true
+//        cameraNode.constraints = [constraint]
         
         return scene
     }
