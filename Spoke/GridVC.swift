@@ -19,6 +19,10 @@ class GridVC: UIViewController {
     private var posColors = [String: UIColor]()
     private var negColors = [String: UIColor]()
     
+    private var xIncrement: Float = 0.3
+    private var zIncrement: Float = 0.4
+    private var cylinderRadius: CGFloat = 0.05
+    
     static func LoadVC( sb : UIStoryboard, nc : UINavigationController, ledgers : [Ledger], title: String) {
         if let vc = sb.instantiateViewControllerWithIdentifier("GridVC") as? GridVC {
             nc.pushViewController(vc, animated: true)
@@ -38,7 +42,7 @@ class GridVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        displayAllCurrencies()
+        displayGrid()
         print(currencies)
     }
 
@@ -46,7 +50,7 @@ class GridVC: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    func displayAllCurrencies() {
+    func displayGrid() {
         let scene = makeScene()
         
         var posHeights = [Float]()
@@ -70,7 +74,7 @@ class GridVC: UIViewController {
                 }
             }
             
-            i += 0.3
+            i += zIncrement
         }
     }
     
@@ -95,30 +99,38 @@ class GridVC: UIViewController {
         let camera = SCNCamera()
         let cameraNode = SCNNode()
         cameraNode.camera = camera
-        cameraNode.position = SCNVector3(x: 0.1 * Float(ledgers[0].balances.count), y: 0.0, z: 0.15 * Float(ledgers.count)) //SCNVector3(x: -3.0, y: 3.0, z: 3.0)
+        cameraNode.position = SCNVector3(x: xIncrement * Float(ledgers[0].balances.count) / 2, y: 0.0, z: zIncrement * Float(ledgers.count) / 2)
         
         let light = SCNLight()
         light.type = SCNLightTypeOmni
-        let lightNode = SCNNode()
-        lightNode.light = light
-        lightNode.position = SCNVector3(x: 1.5, y: 1.5, z: 1.5)
+        
+        let lightNode1 = SCNNode()
+        lightNode1.light = light
+        lightNode1.position = SCNVector3(x: xIncrement * Float(ledgers[0].balances.count) / 2, y: 0.0, z: zIncrement * Float(ledgers.count) / 2)
+        
+        let lightNode2 = SCNNode()
+        lightNode2.light = light
+        lightNode2.position = SCNVector3(x: xIncrement * Float(ledgers[0].balances.count) , y: 0.0, z: zIncrement * Float(ledgers.count) / 2)
+        
+        let lightNode3 = SCNNode()
+        lightNode3.light = light
+        lightNode3.position = SCNVector3(x: xIncrement * Float(ledgers[0].balances.count) / 2, y: 0.0, z: zIncrement * Float(ledgers.count) )
+        
+        let lightNode4 = SCNNode()
+        lightNode4.light = light
+        lightNode4.position = SCNVector3(x:-1 * xIncrement * Float(ledgers[0].balances.count) , y: 0.0, z: zIncrement * Float(ledgers.count))
         
         let ambientLight = SCNLight()
         ambientLight.type = SCNLightTypeAmbient
         ambientLight.color = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1.0)
         cameraNode.light = ambientLight
         
-        scene.rootNode.addChildNode(lightNode)
+        scene.rootNode.addChildNode(lightNode1)
+        //scene.rootNode.addChildNode(lightNode2)
+        //scene.rootNode.addChildNode(lightNode3)
+        scene.rootNode.addChildNode(lightNode4)
         scene.rootNode.addChildNode(cameraNode)
         sceneView.allowsCameraControl = true
-        
-//        let geom = SCNSphere(radius: 0.0)
-//        let sphereNode = SCNNode(geometry: geom)
-//        sphereNode.position = SCNVector3(x: 0.1 * Float(ledgers[0].balances.count), y: 0.0, z: 0.15 * Float(ledgers.count))
-//        
-//        let constraint = SCNLookAtConstraint(target: sphereNode)
-//        constraint.gimbalLockEnabled = true
-//        cameraNode.constraints = [constraint]
         
         return scene
     }
@@ -126,7 +138,7 @@ class GridVC: UIViewController {
     func makeCylindersFromLedger(ledger: Ledger, origin: SCNVector3, inout posHeights: [Float], inout negHeights: [Float]) -> [SCNNode] {
         var cylinders = [SCNNode]()
         
-        var i: Float = 0.2
+        var i: Float = 0.0
         for idx in 0 ..< ledger.balances.count {
             let balance = ledger.balances[idx]
             
@@ -140,14 +152,14 @@ class GridVC: UIViewController {
             negHeights[idx] -= negHeight.floatValue
             cylinders.append(negCylinderNode)
             
-            i += 0.1
+            i += xIncrement
         }
         
         return cylinders
     }
     
     func makeCylinder(origin: SCNVector3, height: Float, positive: Bool, currency: String = "") -> SCNNode {
-        let cylinderGeom = SCNCylinder(radius: 0.025, height: CGFloat(height))
+        let cylinderGeom = SCNCylinder(radius: cylinderRadius, height: CGFloat(height))
         let cylinderNode = SCNNode(geometry: cylinderGeom)
         
         let positiveMaterial = SCNMaterial()
