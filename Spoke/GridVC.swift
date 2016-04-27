@@ -13,7 +13,7 @@ import SceneKit
 class GridVC: UIViewController {
     
     private var ledgers = [Ledger]()
-    private var MAX = NSDecimalNumber.zero()
+    private var maxAmount = NSDecimalNumber.zero()
     
     static func LoadVC( sb : UIStoryboard, nc : UINavigationController, ledgers : [Ledger], title: String) {
         if let vc = sb.instantiateViewControllerWithIdentifier("GridVC") as? GridVC {
@@ -27,14 +27,13 @@ class GridVC: UIViewController {
         self.title = title
         self.ledgers = ledgers
         
-        self.MAX = ledgers.map({$0.maxAmount}).reduce(NSDecimalNumber.zero(), combine: { $0 > $1 ? $0 : $1})
+        self.maxAmount = ledgers.map({$0.maxAmount}).reduce(NSDecimalNumber.zero(), combine: { $0 > $1 ? $0 : $1})
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         displayGrid()
-        print("Hello")
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,12 +62,12 @@ class GridVC: UIViewController {
         let scene = SCNScene()
         sceneView.scene = scene
         
-//        if let img = UIImage(named: DisplaySettings.sharedInstance.bgImgName){
-//            print("got image")
-//            scene.background.contents = img
-//        } else {
-//            print("no image :(")
-//        }
+        if let img = UIImage(named: DisplaySettings.sharedInstance.bgImgName){
+            print("got image")
+            scene.background.contents = img
+        } else {
+            print("no image :(")
+        }
         
         let camera = SCNCamera()
         let cameraNode = SCNNode()
@@ -105,7 +104,6 @@ class GridVC: UIViewController {
         print(ledger.owner)
         print(ledger.currency)
         var cylinders = [SCNNode]()
-        //let max = ledger.maxAmount
         
         let positiveMaterial = SCNMaterial()
         positiveMaterial.diffuse.contents = DisplaySettings.sharedInstance.getPosSpokeColor() //UIColor.greenColor()
@@ -115,18 +113,17 @@ class GridVC: UIViewController {
         
         var i: Float = 0.2
         for balance in ledger.balances {
-            //let height = balance.amount.abs().decimalNumberByDividingBy(MAX)
-            let posHeight = balance.posAmount.abs().decimalNumberByDividingBy(MAX)
-            let negHeight = balance.negAmount.abs().decimalNumberByDividingBy(MAX)
+            let posHeight = balance.posAmount.abs().decimalNumberByDividingBy(maxAmount)
+            let negHeight = balance.negAmount.abs().decimalNumberByDividingBy(maxAmount)
             
-            let posCylinderGeom = SCNCylinder(radius: 0.025, height: CGFloat(posHeight))
+            let posCylinderGeom = SCNCone(topRadius: 0, bottomRadius: 0.025, height: CGFloat(posHeight)) //SCNCylinder(radius: 0.025, height: CGFloat(posHeight))
             let posCylinderNode = SCNNode(geometry: posCylinderGeom)
             posCylinderNode.pivot = SCNMatrix4MakeTranslation(0.0, -1.0 * posHeight.floatValue/2.0, 0.0)
             posCylinderNode.position = SCNVector3(x: origin.x + i, y: origin.y, z: origin.z)
             posCylinderNode.geometry!.materials = [positiveMaterial]
             cylinders.append(posCylinderNode)
             
-            let negCylinderGeom = SCNCylinder(radius: 0.025, height: CGFloat(negHeight))
+            let negCylinderGeom = SCNCone(topRadius: 0.025, bottomRadius: 0, height: CGFloat(negHeight)) //SCNCylinder(radius: 0.025, height: CGFloat(negHeight))
             let negCylinderNode = SCNNode(geometry: negCylinderGeom)
             negCylinderNode.pivot = SCNMatrix4MakeTranslation(0.0, negHeight.floatValue/2.0, 0.0)
             negCylinderNode.position = SCNVector3(x: origin.x + i, y: origin.y, z: origin.z)

@@ -17,8 +17,6 @@ class Ledger: NSObject, NSCopying {
     var transactions = [Transaction]()
     var balances = [Balance]()
     var maxAmount = NSDecimalNumber.zero()
-//    var posMaxAmount = NSDecimalNumber.zero()
-//    var negMaxAmount = NSDecimalNumber.zero()
     
     init(owner: String, currency: String, transactions: [Transaction] = [], balances: [Balance] = [], maxAmount: NSDecimalNumber = NSDecimalNumber.zero()) {
         self.owner = owner
@@ -43,7 +41,7 @@ class Ledger: NSObject, NSCopying {
             let party = self.isSyndicate ? t.broker : t.syndicate
             let amount = self.isSyndicate ? t.s2bAmount : t.s2bAmount.decimalNumberByMultiplyingBy(-1)
             if let idx = balances.indexOf({ $0.otherParty == party }) {
-                if amount < NSDecimalNumber.zero() {
+                if  amount < NSDecimalNumber.zero() {
                     balances[idx].negAmount = balances[idx].negAmount.decimalNumberByAdding(amount)
                 } else {
                     //balances[idx].amount = balances[idx].amount.decimalNumberByAdding(amount)
@@ -65,18 +63,10 @@ class Ledger: NSObject, NSCopying {
         }
 
         maxAmount = NSDecimalNumber.zero()
-//        posMaxAmount = NSDecimalNumber.zero()
-//        negMaxAmount = NSDecimalNumber.zero()
         for s in balances {
             if s.amount.abs() > maxAmount {
                 maxAmount = s.amount.abs()
             }
-//            if s.negAmount.abs() > negMaxAmount {
-//                negMaxAmount = s.negAmount.abs()
-//            }
-//            if s.posAmount.abs() > posMaxAmount {
-//                posMaxAmount = s.posAmount.abs()
-//            }
         }
     }
     

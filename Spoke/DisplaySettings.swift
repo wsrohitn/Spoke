@@ -28,7 +28,6 @@ class DisplaySettings {
     var positiveSpokeColor: String = "00FF00"
     var negativeSpokeColor: String = "FF0000"
     
-    //var bgImgName: String = imgNames[0]
     var bgImgIdx = 4
     var bgImgName: String {
         return imgNames[bgImgIdx]
@@ -53,7 +52,7 @@ class DisplaySettings {
         }
         
         let rString = hex.substringToIndex(hex.startIndex.advancedBy(2))
-        let gString = hex.substringWithRange( Range(start: hex.startIndex.advancedBy(2), end: hex.startIndex.advancedBy(4) ))
+        let gString = hex.substringWithRange( Range( hex.startIndex.advancedBy(2) ..< hex.startIndex.advancedBy(4)))
         let bString = hex.substringFromIndex(hex.startIndex.advancedBy(4))
         
         var r:CUnsignedInt = 0, g:CUnsignedInt = 0, b:CUnsignedInt = 0;
