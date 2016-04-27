@@ -59,7 +59,7 @@ class MenuTVC: UITableViewController {
     
     func clickBRK() {
         let ledgers =  dataSet.getBrokerDataSet()
-        GridVC.LoadVC(self.storyboard!, nc: self.navigationController!, ledgers: ledgers, title: "Brokers")
+        GridVC.LoadVC(self.storyboard!, nc: self.navigationController!, ledgers: ledgers.filter({$0.currency == "GBP"}), title: "Brokers")
         //WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: ledgers, title: "Brokers")
     }
     

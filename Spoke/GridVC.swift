@@ -12,6 +12,9 @@ import SceneKit
 
 class GridVC: UIViewController {
     
+    private var ledgers = [Ledger]()
+    private var MAX = NSDecimalNumber.zero()
+    
     static func LoadVC( sb : UIStoryboard, nc : UINavigationController, ledgers : [Ledger], title: String) {
         if let vc = sb.instantiateViewControllerWithIdentifier("GridVC") as? GridVC {
             nc.pushViewController(vc, animated: true)
@@ -19,16 +22,17 @@ class GridVC: UIViewController {
         }
     }
     
-    private var ledgers = [Ledger]()
-    
     private func setInitialState( title : String, ledgers : [Ledger] )
     {
         self.title = title
         self.ledgers = ledgers
+        
+        self.MAX = ledgers.map({$0.maxAmount}).reduce(NSDecimalNumber.zero(), combine: { $0 > $1 ? $0 : $1})
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         displayGrid()
         print("Hello")
     }
@@ -40,10 +44,15 @@ class GridVC: UIViewController {
     func displayGrid() {
         let scene = makeScene()
         
-        let cylinders = makeCylindersFromLedger(ledgers[0], origin: SCNVector3(x: 0.0, y: 0.0, z: 0.0))
-        
-        for cylinder in cylinders {
-            scene.rootNode.addChildNode(cylinder)
+        var i: Float = 0.0
+        for ledger in ledgers {
+            let cylinders = makeCylindersFromLedger(ledger, origin: SCNVector3(x: 0.0, y: 0.0, z: 0.0 + i))
+            
+            for cylinder in cylinders {
+                scene.rootNode.addChildNode(cylinder)
+            }
+            
+            i += 0.3
         }
     }
     
@@ -81,11 +90,11 @@ class GridVC: UIViewController {
         scene.rootNode.addChildNode(cameraNode)
         sceneView.allowsCameraControl = true
         
-//        let geom = SCNSphere(radius: 0.0)
-//        let sphereNode = SCNNode(geometry: geom)
-//        sphereNode.position = SCNVector3(x: 0.0, y: 0.0, z: 0.0)
+        let geom = SCNSphere(radius: 0.0)
+        let sphereNode = SCNNode(geometry: geom)
+        sphereNode.position = SCNVector3(x: 0.1 * Float(ledgers[0].balances.count), y: 0.0, z: 0.15 * Float(ledgers.count))
         
-        let constraint = SCNLookAtConstraint(target: scene.rootNode)
+        let constraint = SCNLookAtConstraint(target: sphereNode)
         constraint.gimbalLockEnabled = true
         cameraNode.constraints = [constraint]
         
@@ -96,7 +105,7 @@ class GridVC: UIViewController {
         print(ledger.owner)
         print(ledger.currency)
         var cylinders = [SCNNode]()
-        let max = ledger.maxAmount
+        //let max = ledger.maxAmount
         
         let positiveMaterial = SCNMaterial()
         positiveMaterial.diffuse.contents = DisplaySettings.sharedInstance.getPosSpokeColor() //UIColor.greenColor()
@@ -104,21 +113,26 @@ class GridVC: UIViewController {
         let negativeMaterial = SCNMaterial()
         negativeMaterial.diffuse.contents = DisplaySettings.sharedInstance.getNegSpokeColor()
         
-        var i: Float = 0.1
+        var i: Float = 0.2
         for balance in ledger.balances {
-            let height = balance.amount.abs().decimalNumberByDividingBy(max)
-            let cylinderGeom = SCNCylinder(radius: 0.025, height: CGFloat(height))
-            let cylinderNode = SCNNode(geometry: cylinderGeom)
+            //let height = balance.amount.abs().decimalNumberByDividingBy(MAX)
+            let posHeight = balance.posAmount.abs().decimalNumberByDividingBy(MAX)
+            let negHeight = balance.negAmount.abs().decimalNumberByDividingBy(MAX)
             
-            if balance.amount < 0 {
-                cylinderNode.pivot = SCNMatrix4MakeTranslation(0.0, height.floatValue/2.0, 0.0)
-            } else {
-                cylinderNode.pivot = SCNMatrix4MakeTranslation(0.0, -1.0 * height.floatValue/2.0, 0.0)
-            }
-            cylinderNode.position = SCNVector3(x: origin.x + i, y: origin.y, z: origin.z)
+            let posCylinderGeom = SCNCylinder(radius: 0.025, height: CGFloat(posHeight))
+            let posCylinderNode = SCNNode(geometry: posCylinderGeom)
+            posCylinderNode.pivot = SCNMatrix4MakeTranslation(0.0, -1.0 * posHeight.floatValue/2.0, 0.0)
+            posCylinderNode.position = SCNVector3(x: origin.x + i, y: origin.y, z: origin.z)
+            posCylinderNode.geometry!.materials = [positiveMaterial]
+            cylinders.append(posCylinderNode)
             
-            cylinderNode.geometry!.materials = balance.amount < NSDecimalNumber.zero() ? [negativeMaterial] : [positiveMaterial]
-            cylinders.append(cylinderNode)            
+            let negCylinderGeom = SCNCylinder(radius: 0.025, height: CGFloat(negHeight))
+            let negCylinderNode = SCNNode(geometry: negCylinderGeom)
+            negCylinderNode.pivot = SCNMatrix4MakeTranslation(0.0, negHeight.floatValue/2.0, 0.0)
+            negCylinderNode.position = SCNVector3(x: origin.x + i, y: origin.y, z: origin.z)
+            negCylinderNode.geometry!.materials = [negativeMaterial]
+            cylinders.append(negCylinderNode)
+            
             i += 0.1
         }
         
