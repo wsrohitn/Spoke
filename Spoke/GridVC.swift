@@ -13,6 +13,8 @@ import SceneKit
 class GridVC: UIViewController {
     
     private var ledgers = [Ledger]()
+    private var names = [String]()
+    private var currencies = [String]()
     private var maxAmount = NSDecimalNumber.zero()
     
     static func LoadVC( sb : UIStoryboard, nc : UINavigationController, ledgers : [Ledger], title: String) {
@@ -26,14 +28,15 @@ class GridVC: UIViewController {
     {
         self.title = title
         self.ledgers = ledgers
-        
         self.maxAmount = ledgers.map({$0.maxAmount}).reduce(NSDecimalNumber.zero(), combine: { $0 > $1 ? $0 : $1})
+        getNames()
+        getCurrencies()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        displayGrid()
+        displayAllCurrencies()
+        //displayGrid()
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,9 +46,16 @@ class GridVC: UIViewController {
     func displayGrid() {
         let scene = makeScene()
         
+        var posHeights = [Float]()
+        var negHeights = [Float]()
+        for _ in ledgers[0].balances {
+            posHeights.append(0.0)
+            negHeights.append(0.0)
+        }
+        
         var i: Float = 0.0
         for ledger in ledgers {
-            let cylinders = makeCylindersFromLedger(ledger, origin: SCNVector3(x: 0.0, y: 0.0, z: 0.0 + i))
+            let cylinders = makeCylindersFromLedger(ledger, origin: SCNVector3(x: 0.0, y: 0.0, z: 0.0 + i), posHeights: &posHeights, negHeights: &negHeights)
             
             for cylinder in cylinders {
                 scene.rootNode.addChildNode(cylinder)
@@ -53,6 +63,38 @@ class GridVC: UIViewController {
             
             i += 0.3
         }
+    }
+    
+    func displayAllCurrencies() {
+        let scene = makeScene()
+        
+        var posHeights = [Float]()
+        var negHeights = [Float]()
+        
+        for _ in ledgers[0].balances {
+            posHeights.append(0.0)
+            negHeights.append(0.0)
+        }
+        
+        var i: Float = 0.0
+        for name in names {
+            var tmpPosHeights = posHeights
+            var tmpNegHeights = negHeights
+            
+            for currency in currencies {
+                let ledger = getLedgerFor(name, currency: currency)
+                let cylinders = makeCylindersFromLedger(ledger, origin: SCNVector3(x: 0, y: 0, z: 0 + i), posHeights: &tmpPosHeights, negHeights: &tmpNegHeights)
+                for cylinder in cylinders {
+                    scene.rootNode.addChildNode(cylinder)
+                }
+            }
+            
+            i += 0.3
+        }
+    }
+    
+    private func getLedgerFor(name: String, currency: String) -> Ledger {
+        return ledgers.filter( {$0.owner == name && $0.currency == currency}).first!
     }
     
     func makeScene() -> SCNScene {
@@ -100,17 +142,21 @@ class GridVC: UIViewController {
         return scene
     }
     
-    func makeCylindersFromLedger(ledger: Ledger, origin: SCNVector3) -> [SCNNode] {
+    func makeCylindersFromLedger(ledger: Ledger, origin: SCNVector3, inout posHeights: [Float], inout negHeights: [Float]) -> [SCNNode] {
         var cylinders = [SCNNode]()
         
         var i: Float = 0.2
-        for balance in ledger.balances {
+        for idx in 0 ..< ledger.balances.count {
+            let balance = ledger.balances[idx]
+            
             let posHeight = balance.posAmount.abs().decimalNumberByDividingBy(maxAmount)
             let negHeight = balance.negAmount.abs().decimalNumberByDividingBy(maxAmount)
             
-            let posCylinderNode = makeCylinder(SCNVector3(x: origin.x + i, y: origin.y, z: origin.z), height: posHeight.floatValue, positive: true)
+            let posCylinderNode = makeCylinder(SCNVector3(x: origin.x + i, y: origin.y + posHeights[idx], z: origin.z), height: posHeight.floatValue, positive: true)
+            posHeights[idx] += posHeight.floatValue
             cylinders.append(posCylinderNode)
-            let negCylinderNode = makeCylinder(SCNVector3(x: origin.x + i, y: origin.y, z: origin.z), height: negHeight.floatValue, positive: false)
+            let negCylinderNode = makeCylinder(SCNVector3(x: origin.x + i, y: origin.y + negHeights[idx], z: origin.z), height: negHeight.floatValue, positive: false)
+            negHeights[idx] -= negHeight.floatValue
             cylinders.append(negCylinderNode)
             
             i += 0.1
@@ -138,5 +184,23 @@ class GridVC: UIViewController {
         
         cylinderNode.position = origin
         return cylinderNode
+    }
+    
+    func getNames() {
+        for name in ledgers.map( {$0.owner }) {
+            if !names.contains(name) {
+                names.append(name)
+            }
+        }
+        names.sortInPlace()
+    }
+    
+    func getCurrencies() {
+        for currency in ledgers.map( {$0.currency}) {
+            if !currencies.contains(currency) {
+                currencies.append(currency)
+            }
+        }
+        currencies.sortInPlace()
     }
 }
