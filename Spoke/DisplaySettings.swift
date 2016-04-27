@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum SpokeFormat {
     case Capsule
@@ -19,4 +20,8 @@ class DisplaySettings {
     
     var opacity: Float = 0.5
     var spokeFormat = SpokeFormat.Box
+    
+    var diskColor: String = "565656"
+    var positiveSpokeColor: String = "FF0000"
+    var negativeSpokeColor: String = "00FF00"
 }

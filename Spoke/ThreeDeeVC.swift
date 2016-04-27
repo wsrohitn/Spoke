@@ -52,18 +52,18 @@ class ThreeDeeVC: UIViewController {
         let theta = Float(2 * M_PI / Double(num))
         let max = balances.map({$0.amount.abs()}).reduce(NSDecimalNumber.zero(), combine: { $0 > $1 ? $0 : $1})
         
-        let greenMaterial = SCNMaterial()
-        greenMaterial.diffuse.contents = UIColor.greenColor()
+        let positiveMaterial = SCNMaterial()
+        positiveMaterial.diffuse.contents = UIColor.greenColor()
         
-        let redMaterial = SCNMaterial()
-        redMaterial.diffuse.contents = UIColor.redColor()
+        let negativeMaterial = SCNMaterial()
+        negativeMaterial.diffuse.contents = UIColor.redColor()
         
         var capsules = [SCNNode]()
         for i in 0 ..< num {
             let height = balances[i].amount.abs().decimalNumberByDividingBy(max)
             var node = SCNNode()
             if DisplaySettings.sharedInstance.spokeFormat == SpokeFormat.Box {
-                let boxGeom = SCNBox(width: 0.01, height: CGFloat(height.floatValue), length: 0.05, chamferRadius: 0.0)
+                let boxGeom = SCNBox(width: 0.025, height: CGFloat(height.floatValue), length: 0.025, chamferRadius: 0.0)
                 node = SCNNode(geometry: boxGeom)
             }
             else if DisplaySettings.sharedInstance.spokeFormat == SpokeFormat.Capsule {
@@ -79,7 +79,7 @@ class ThreeDeeVC: UIViewController {
             node.pivot = SCNMatrix4MakeTranslation(0.0, height.floatValue/2.0, 0.0)
             node.eulerAngles = SCNVector3(x: Float(M_PI_2), y: Float(i) * theta, z: 0.0)
             
-            node.geometry!.materials = balances[i].amount < NSDecimalNumber.zero() ? [redMaterial] : [greenMaterial]
+            node.geometry!.materials = balances[i].amount < NSDecimalNumber.zero() ? [negativeMaterial] : [positiveMaterial]
             capsules.append(node)
         }
         
@@ -116,7 +116,7 @@ class ThreeDeeVC: UIViewController {
         
         let scene = SCNScene()
         sceneView.scene = scene
-        
+
         if let img = UIImage(named: "graph-paper.jpg"){
             print("got image")
             scene.background.contents = img

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DisplaySettingsVC: UIViewController {
+class DisplaySettingsVC: UIViewController, UITextFieldDelegate {
     
     static func LoadVC(sb: UIStoryboard, nc: UINavigationController, title: String) {
         if let vc = sb.instantiateViewControllerWithIdentifier("DisplaySettingsVC") as? DisplaySettingsVC {
@@ -27,6 +27,10 @@ class DisplaySettingsVC: UIViewController {
     
     @IBOutlet weak var sliderValue: UILabel!
     
+    @IBOutlet weak var diskBG: UITextField!
+    @IBOutlet weak var negativeSpokeColor: UITextField!
+    @IBOutlet weak var positiveSpokeColor: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         opacitySlider.value = DisplaySettings.sharedInstance.opacity
@@ -39,6 +43,16 @@ class DisplaySettingsVC: UIViewController {
         } else {
             spokeFormat.selectedSegmentIndex = 2
         }
+        
+        diskBG.delegate = self
+        positiveSpokeColor.delegate = self
+        negativeSpokeColor.delegate = self
+        
+        diskBG.text = DisplaySettings.sharedInstance.diskColor
+        positiveSpokeColor.text = DisplaySettings.sharedInstance.positiveSpokeColor
+        negativeSpokeColor.text = DisplaySettings.sharedInstance.negativeSpokeColor
+        
+        print(UIColor.lightGrayColor().makeCSV())
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,6 +72,29 @@ class DisplaySettingsVC: UIViewController {
             print("Third Segment Selected")
             DisplaySettings.sharedInstance.spokeFormat = SpokeFormat.Cylinder
         }
+    }
+    
+    @IBAction func diskEditEnded(sender: UITextField) {
+        DisplaySettings.sharedInstance.diskColor = diskBG.text!
+        print(DisplaySettings.sharedInstance.diskColor)
+    }
+    
+    @IBAction func posSpokeEditEnded(sender: UITextField) {
+        DisplaySettings.sharedInstance.positiveSpokeColor = positiveSpokeColor.text!
+        print(DisplaySettings.sharedInstance.positiveSpokeColor)
+    }
+    
+    @IBAction func negSpokeEditEnd(sender: UITextField) {
+        DisplaySettings.sharedInstance.negativeSpokeColor = negativeSpokeColor.text!
+        print(DisplaySettings.sharedInstance.negativeSpokeColor)
+    }
+    
+    
+    func textFieldShouldReturn(userText: UITextField) -> Bool {
+        diskBG.resignFirstResponder()
+        positiveSpokeColor.resignFirstResponder()
+        negativeSpokeColor.resignFirstResponder()
+        return true;
     }
 
     @IBAction func opacitySliderValue(sender: UISlider) {

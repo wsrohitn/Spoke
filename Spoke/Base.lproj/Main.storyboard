@@ -104,7 +104,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bYE-Wp-wkZ">
-                                <rect key="frame" x="20" y="62" width="222" height="29"/>
+                                <rect key="frame" x="20" y="60" width="222" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="222" id="brg-rA-lfy"/>
                                 </constraints>
@@ -118,47 +118,83 @@
                                 </connections>
                             </segmentedControl>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="o8j-v0-mLf">
-                                <rect key="frame" x="88" y="161" width="494" height="31"/>
+                                <rect key="frame" x="88" y="159" width="494" height="31"/>
                                 <connections>
                                     <action selector="opacitySliderValue:" destination="QH6-xG-fsC" eventType="valueChanged" id="2lS-iR-6uI"/>
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Opacity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DbP-YX-MWO">
-                                <rect key="frame" x="20" y="165" width="60" height="21"/>
+                                <rect key="frame" x="20" y="164" width="60" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sliderValue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z7K-Bd-p3n">
-                                <rect key="frame" x="293" y="229" width="84" height="21"/>
+                                <rect key="frame" x="293" y="227" width="84" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="MTc-Wc-KPq">
+                                <rect key="frame" x="20" y="288" width="560" height="30"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JOd-aP-F0z">
+                                        <rect key="frame" x="0.0" y="0.0" width="187" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="diskEditEnded:" destination="QH6-xG-fsC" eventType="editingDidEnd" id="9Dw-vh-kdu"/>
+                                            <action selector="diskValueChanged:" destination="QH6-xG-fsC" eventType="valueChanged" id="g6Z-ry-fue"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xjg-Wm-L7V">
+                                        <rect key="frame" x="187" y="0.0" width="186" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="posSpokeEditEnded:" destination="QH6-xG-fsC" eventType="editingDidEnd" id="2hu-2O-a9k"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KWs-TG-bdO">
+                                        <rect key="frame" x="373" y="0.0" width="187" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="negSpokeEditEnd:" destination="QH6-xG-fsC" eventType="editingDidEnd" id="NLg-tG-tb5"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" constant="70" id="8AI-m0-vFf"/>
                             <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" constant="70" id="9XO-vf-rum"/>
                             <constraint firstItem="z7K-Bd-p3n" firstAttribute="centerX" secondItem="o8j-v0-mLf" secondAttribute="centerX" id="CZK-bs-8vS"/>
+                            <constraint firstItem="bYE-Wp-wkZ" firstAttribute="top" secondItem="GhC-Om-nc6" secondAttribute="bottom" constant="40" id="GqP-Vr-lk0"/>
                             <constraint firstItem="bYE-Wp-wkZ" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" id="JOe-Kh-HWJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="o8j-v0-mLf" secondAttribute="trailing" id="Wdf-LF-a4c"/>
                             <constraint firstItem="o8j-v0-mLf" firstAttribute="leading" secondItem="DbP-YX-MWO" secondAttribute="trailing" constant="10" id="adv-Kt-G2B"/>
+                            <constraint firstItem="MTc-Wc-KPq" firstAttribute="top" secondItem="z7K-Bd-p3n" secondAttribute="bottom" constant="40" id="fVx-oP-kSW"/>
                             <constraint firstItem="o8j-v0-mLf" firstAttribute="top" secondItem="bYE-Wp-wkZ" secondAttribute="bottom" constant="71" id="hOt-H2-Iny"/>
                             <constraint firstItem="o8j-v0-mLf" firstAttribute="centerY" secondItem="DbP-YX-MWO" secondAttribute="centerY" id="hSB-iM-ZN6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="MTc-Wc-KPq" secondAttribute="trailing" id="pGo-Fr-6GV"/>
+                            <constraint firstItem="MTc-Wc-KPq" firstAttribute="leading" secondItem="HUm-jk-36q" secondAttribute="leadingMargin" id="w3F-pb-uKI"/>
                             <constraint firstItem="z7K-Bd-p3n" firstAttribute="top" secondItem="o8j-v0-mLf" secondAttribute="bottom" constant="38" id="yIF-B6-1O5"/>
-                            <constraint firstItem="bYE-Wp-wkZ" firstAttribute="top" secondItem="GhC-Om-nc6" secondAttribute="bottom" constant="42" id="ybp-pt-zMw"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="diskBG" destination="JOd-aP-F0z" id="yNe-92-xh7"/>
+                        <outlet property="negativeSpokeColor" destination="KWs-TG-bdO" id="Iz2-LC-wz5"/>
                         <outlet property="opacitySlider" destination="o8j-v0-mLf" id="n8M-mx-NLY"/>
+                        <outlet property="positiveSpokeColor" destination="xjg-Wm-L7V" id="HD1-0x-hpg"/>
                         <outlet property="sliderValue" destination="z7K-Bd-p3n" id="6uo-Zw-FGW"/>
                         <outlet property="spokeFormat" destination="bYE-Wp-wkZ" id="zJ0-ac-ShG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nHb-t3-DZE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-14" y="884"/>
+            <point key="canvasLocation" x="-28" y="955"/>
         </scene>
         <!--Three DeeVC-->
         <scene sceneID="Vwg-Fl-3kQ">
@@ -198,7 +234,7 @@
                                             <rect key="frame" x="15" y="0.0" width="570" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
