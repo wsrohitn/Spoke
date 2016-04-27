@@ -20,6 +20,10 @@
 		C75370411CCFAC1300160D7A /* DisplaySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75370401CCFAC1300160D7A /* DisplaySettings.swift */; };
 		C75370431CCFACDE00160D7A /* DisplaySettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75370421CCFACDE00160D7A /* DisplaySettingsVC.swift */; };
 		C795CB391CCA12DC0040624A /* WheelCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C795CB381CCA12DC0040624A /* WheelCVC.swift */; };
+		C7A5F4F61CD0BB6A00232C51 /* space.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7A5F4F51CD0BB6A00232C51 /* space.jpg */; };
+		C7A5F4F81CD0BB9800232C51 /* gradient-black-to-white.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7A5F4F71CD0BB9800232C51 /* gradient-black-to-white.jpg */; };
+		C7A5F4FA1CD0BBC800232C51 /* Lloyds_building_London.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7A5F4F91CD0BBC800232C51 /* Lloyds_building_London.jpg */; };
+		C7A5F4FC1CD0BC2600232C51 /* blue_graph_paper.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7A5F4FB1CD0BC2600232C51 /* blue_graph_paper.jpg */; };
 		C7F4ECB11CC917AC0094EC55 /* MenuTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4ECB01CC917AC0094EC55 /* MenuTVC.swift */; };
 		C7F4ECB31CC91E160094EC55 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4ECB21CC91E160094EC55 /* CouchbaseLite.framework */; };
 		C7F4ECB51CC91E1C0094EC55 /* WsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4ECB41CC91E1C0094EC55 /* WsBase.framework */; };
@@ -59,6 +63,10 @@
 		C75370401CCFAC1300160D7A /* DisplaySettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplaySettings.swift; sourceTree = "<group>"; };
 		C75370421CCFACDE00160D7A /* DisplaySettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplaySettingsVC.swift; sourceTree = "<group>"; };
 		C795CB381CCA12DC0040624A /* WheelCVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WheelCVC.swift; sourceTree = "<group>"; };
+		C7A5F4F51CD0BB6A00232C51 /* space.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = space.jpg; sourceTree = "<group>"; };
+		C7A5F4F71CD0BB9800232C51 /* gradient-black-to-white.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "gradient-black-to-white.jpg"; sourceTree = "<group>"; };
+		C7A5F4F91CD0BBC800232C51 /* Lloyds_building_London.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Lloyds_building_London.jpg; sourceTree = "<group>"; };
+		C7A5F4FB1CD0BC2600232C51 /* blue_graph_paper.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = blue_graph_paper.jpg; sourceTree = "<group>"; };
 		C7F4ECB01CC917AC0094EC55 /* MenuTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTVC.swift; sourceTree = "<group>"; };
 		C7F4ECB21CC91E160094EC55 /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Carthage/Build/iOS/CouchbaseLite.framework; sourceTree = "<group>"; };
 		C7F4ECB41CC91E1C0094EC55 /* WsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WsBase.framework; path = Carthage/Build/iOS/WsBase.framework; sourceTree = "<group>"; };
@@ -123,7 +131,7 @@
 				C751D21A1CC7A10C003C2B5B /* LaunchScreen.storyboard */,
 				C751D21D1CC7A10C003C2B5B /* Info.plist */,
 				C71676351CC7B37100CA7F8A /* SpokeData.swift */,
-				C753703E1CCFAAFB00160D7A /* graph-paper.jpg */,
+				C7A5F4FD1CD0BC3B00232C51 /* Backgrounds */,
 				C71676371CC7B7B300CA7F8A /* WheelView.swift */,
 				C71676391CC7E34800CA7F8A /* Ledger.swift */,
 				C7F4ECB01CC917AC0094EC55 /* MenuTVC.swift */,
@@ -147,6 +155,18 @@
 				C751D2281CC7A10C003C2B5B /* Info.plist */,
 			);
 			path = SpokeTests;
+			sourceTree = "<group>";
+		};
+		C7A5F4FD1CD0BC3B00232C51 /* Backgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				C7A5F4FB1CD0BC2600232C51 /* blue_graph_paper.jpg */,
+				C753703E1CCFAAFB00160D7A /* graph-paper.jpg */,
+				C7A5F4F71CD0BB9800232C51 /* gradient-black-to-white.jpg */,
+				C7A5F4F91CD0BBC800232C51 /* Lloyds_building_London.jpg */,
+				C7A5F4F51CD0BB6A00232C51 /* space.jpg */,
+			);
+			name = Backgrounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,7 +253,11 @@
 			files = (
 				C751D21C1CC7A10C003C2B5B /* LaunchScreen.storyboard in Resources */,
 				C753703F1CCFAAFB00160D7A /* graph-paper.jpg in Resources */,
+				C7A5F4F61CD0BB6A00232C51 /* space.jpg in Resources */,
+				C7A5F4FC1CD0BC2600232C51 /* blue_graph_paper.jpg in Resources */,
+				C7A5F4FA1CD0BBC800232C51 /* Lloyds_building_London.jpg in Resources */,
 				C751D2191CC7A10C003C2B5B /* Assets.xcassets in Resources */,
+				C7A5F4F81CD0BB9800232C51 /* gradient-black-to-white.jpg in Resources */,
 				C751D2171CC7A10C003C2B5B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

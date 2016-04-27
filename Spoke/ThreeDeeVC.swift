@@ -117,7 +117,7 @@ class ThreeDeeVC: UIViewController {
         let scene = SCNScene()
         sceneView.scene = scene
 
-        if let img = UIImage(named: "graph-paper.jpg"){
+        if let img = UIImage(named: DisplaySettings.sharedInstance.bgImgName){
             print("got image")
             scene.background.contents = img
         } else {

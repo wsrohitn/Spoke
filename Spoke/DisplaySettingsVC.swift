@@ -35,6 +35,8 @@ class DisplaySettingsVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var posSpokeView: UIView!
     @IBOutlet weak var negSpokeView: UIView!
     
+    @IBOutlet weak var bgPicker: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         opacitySlider.value = DisplaySettings.sharedInstance.opacity
@@ -60,7 +62,7 @@ class DisplaySettingsVC: UIViewController, UITextFieldDelegate {
         posSpokeView.backgroundColor = DisplaySettings.sharedInstance.getPosSpokeColor()
         negSpokeView.backgroundColor = DisplaySettings.sharedInstance.getNegSpokeColor()
         
-        print(UIColor.lightGrayColor().makeCSV())
+        bgPicker.selectedSegmentIndex = DisplaySettings.sharedInstance.bgImgIdx
     }
     
     override func didReceiveMemoryWarning() {
@@ -80,6 +82,10 @@ class DisplaySettingsVC: UIViewController, UITextFieldDelegate {
             print("Third Segment Selected")
             DisplaySettings.sharedInstance.spokeFormat = SpokeFormat.Cylinder
         }
+    }
+    
+    @IBAction func bgPickerValueChanged(sender: UISegmentedControl) {
+        DisplaySettings.sharedInstance.bgImgIdx = bgPicker.selectedSegmentIndex
     }
     
     @IBAction func diskEditEnded(sender: UITextField) {

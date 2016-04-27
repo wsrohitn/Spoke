@@ -19,12 +19,20 @@ enum SpokeFormat {
 class DisplaySettings {
     static let sharedInstance = DisplaySettings()
     
+    private let imgNames: [String] = ["blue_graph_paper.jpg", "graph-paper.jpg", "gradient-black-to-white.jpg", "Lloyds_building_London.jpg", "space.jpg"]
+    
     var opacity: Float = 0.5
     var spokeFormat = SpokeFormat.Box
     
     var diskColor: String = "565656"
     var positiveSpokeColor: String = "FF0000"
     var negativeSpokeColor: String = "00FF00"
+    
+    //var bgImgName: String = imgNames[0]
+    var bgImgIdx = 4
+    var bgImgName: String {
+        return imgNames[bgImgIdx]
+    }
     
     func getDiskColor() -> UIColor {
         return getColorFromHex(diskColor)
