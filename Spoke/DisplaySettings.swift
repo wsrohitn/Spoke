@@ -28,7 +28,7 @@ class DisplaySettings {
     var positiveSpokeColor: String = "00FF00"
     var negativeSpokeColor: String = "FF0000"
     
-    var bgImgIdx = 4
+    var bgImgIdx = 2
     var bgImgName: String {
         return imgNames[bgImgIdx]
     }
@@ -45,7 +45,7 @@ class DisplaySettings {
         return getColorFromHex(negativeSpokeColor)
     }
     
-    private func getColorFromHex(hex: String) -> UIColor {
+    func getColorFromHex(hex: String) -> UIColor {
         
         if hex.length() != 6 {
             return UIColor.lightGrayColor()

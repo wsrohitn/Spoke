@@ -16,6 +16,8 @@ class GridVC: UIViewController {
     private var names = [String]()
     private var currencies = [String]()
     private var maxAmount = NSDecimalNumber.zero()
+    private var posColors = [String: UIColor]()
+    private var negColors = [String: UIColor]()
     
     static func LoadVC( sb : UIStoryboard, nc : UINavigationController, ledgers : [Ledger], title: String) {
         if let vc = sb.instantiateViewControllerWithIdentifier("GridVC") as? GridVC {
@@ -31,38 +33,17 @@ class GridVC: UIViewController {
         self.maxAmount = ledgers.map({$0.maxAmount}).reduce(NSDecimalNumber.zero(), combine: { $0 > $1 ? $0 : $1})
         getNames()
         getCurrencies()
+        setupColors()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         displayAllCurrencies()
-        //displayGrid()
+        print(currencies)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    func displayGrid() {
-        let scene = makeScene()
-        
-        var posHeights = [Float]()
-        var negHeights = [Float]()
-        for _ in ledgers[0].balances {
-            posHeights.append(0.0)
-            negHeights.append(0.0)
-        }
-        
-        var i: Float = 0.0
-        for ledger in ledgers {
-            let cylinders = makeCylindersFromLedger(ledger, origin: SCNVector3(x: 0.0, y: 0.0, z: 0.0 + i), posHeights: &posHeights, negHeights: &negHeights)
-            
-            for cylinder in cylinders {
-                scene.rootNode.addChildNode(cylinder)
-            }
-            
-            i += 0.3
-        }
     }
     
     func displayAllCurrencies() {
@@ -152,10 +133,10 @@ class GridVC: UIViewController {
             let posHeight = balance.posAmount.abs().decimalNumberByDividingBy(maxAmount)
             let negHeight = balance.negAmount.abs().decimalNumberByDividingBy(maxAmount)
             
-            let posCylinderNode = makeCylinder(SCNVector3(x: origin.x + i, y: origin.y + posHeights[idx], z: origin.z), height: posHeight.floatValue, positive: true)
+            let posCylinderNode = makeCylinder(SCNVector3(x: origin.x + i, y: origin.y + posHeights[idx], z: origin.z), height: posHeight.floatValue, positive: true, currency: ledger.currency)
             posHeights[idx] += posHeight.floatValue
             cylinders.append(posCylinderNode)
-            let negCylinderNode = makeCylinder(SCNVector3(x: origin.x + i, y: origin.y + negHeights[idx], z: origin.z), height: negHeight.floatValue, positive: false)
+            let negCylinderNode = makeCylinder(SCNVector3(x: origin.x + i, y: origin.y + negHeights[idx], z: origin.z), height: negHeight.floatValue, positive: false, currency: ledger.currency)
             negHeights[idx] -= negHeight.floatValue
             cylinders.append(negCylinderNode)
             
@@ -165,14 +146,14 @@ class GridVC: UIViewController {
         return cylinders
     }
     
-    func makeCylinder(origin: SCNVector3, height: Float, positive: Bool) -> SCNNode {
+    func makeCylinder(origin: SCNVector3, height: Float, positive: Bool, currency: String = "") -> SCNNode {
         let cylinderGeom = SCNCylinder(radius: 0.025, height: CGFloat(height))
         let cylinderNode = SCNNode(geometry: cylinderGeom)
         
         let positiveMaterial = SCNMaterial()
-        positiveMaterial.diffuse.contents = DisplaySettings.sharedInstance.getPosSpokeColor()
+        positiveMaterial.diffuse.contents = posColors[currency] //DisplaySettings.sharedInstance.getPosSpokeColor() //
         let negativeMaterial = SCNMaterial()
-        negativeMaterial.diffuse.contents = DisplaySettings.sharedInstance.getNegSpokeColor()
+        negativeMaterial.diffuse.contents = negColors[currency]  //DisplaySettings.sharedInstance.getNegSpokeColor()
         
         if positive {
             cylinderNode.pivot = SCNMatrix4MakeTranslation(0.0, -1.0 * height/2.0, 0.0)
@@ -184,6 +165,20 @@ class GridVC: UIViewController {
         
         cylinderNode.position = origin
         return cylinderNode
+    }
+    
+    private func setupColors() {
+        posColors["CAD"] = DisplaySettings.sharedInstance.getColorFromHex("293757")
+        posColors["EUR"] = DisplaySettings.sharedInstance.getColorFromHex("568D4B")
+        posColors["GBP"] = DisplaySettings.sharedInstance.getColorFromHex("D5BB56")
+        posColors["SEK"] = DisplaySettings.sharedInstance.getColorFromHex("D26A1B")
+        posColors["USD"] = DisplaySettings.sharedInstance.getColorFromHex("A41D1A")
+        
+        negColors["CAD"] = DisplaySettings.sharedInstance.getColorFromHex("C1395E")
+        negColors["EUR"] = DisplaySettings.sharedInstance.getColorFromHex("AEC17B")
+        negColors["GBP"] = DisplaySettings.sharedInstance.getColorFromHex("F0CA50")
+        negColors["SEK"] = DisplaySettings.sharedInstance.getColorFromHex("E07B42")
+        negColors["USD"] = DisplaySettings.sharedInstance.getColorFromHex("89A7C2")
     }
     
     func getNames() {
