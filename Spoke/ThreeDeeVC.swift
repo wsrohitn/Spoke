@@ -154,18 +154,4 @@ class ThreeDeeVC: UIViewController {
         
         return scene
     }
-    
-    private func showData(ledgers: [Ledger] ) {
-        if m_scene == nil {
-            let scene = SpokeScene()
-            scene.setData(ledgers)
-            m_scene = scene
-//            m_chart_scene_view.scene = scene
-//            m_mode_selected.selectedSegmentIndex = 0
-        }
-        else {
-            m_scene!.setData(ledgers)
-        }
-    }
-
 }

@@ -101,33 +101,16 @@ class GridVC: UIViewController {
     }
     
     func makeCylindersFromLedger(ledger: Ledger, origin: SCNVector3) -> [SCNNode] {
-        print(ledger.owner)
-        print(ledger.currency)
         var cylinders = [SCNNode]()
-        
-        let positiveMaterial = SCNMaterial()
-        positiveMaterial.diffuse.contents = DisplaySettings.sharedInstance.getPosSpokeColor() //UIColor.greenColor()
-        
-        let negativeMaterial = SCNMaterial()
-        negativeMaterial.diffuse.contents = DisplaySettings.sharedInstance.getNegSpokeColor()
         
         var i: Float = 0.2
         for balance in ledger.balances {
             let posHeight = balance.posAmount.abs().decimalNumberByDividingBy(maxAmount)
             let negHeight = balance.negAmount.abs().decimalNumberByDividingBy(maxAmount)
             
-            let posCylinderGeom = SCNCone(topRadius: 0, bottomRadius: 0.025, height: CGFloat(posHeight)) //SCNCylinder(radius: 0.025, height: CGFloat(posHeight))
-            let posCylinderNode = SCNNode(geometry: posCylinderGeom)
-            posCylinderNode.pivot = SCNMatrix4MakeTranslation(0.0, -1.0 * posHeight.floatValue/2.0, 0.0)
-            posCylinderNode.position = SCNVector3(x: origin.x + i, y: origin.y, z: origin.z)
-            posCylinderNode.geometry!.materials = [positiveMaterial]
+            let posCylinderNode = makeCylinder(SCNVector3(x: origin.x + i, y: origin.y, z: origin.z), height: posHeight.floatValue, positive: true)
             cylinders.append(posCylinderNode)
-            
-            let negCylinderGeom = SCNCone(topRadius: 0.025, bottomRadius: 0, height: CGFloat(negHeight)) //SCNCylinder(radius: 0.025, height: CGFloat(negHeight))
-            let negCylinderNode = SCNNode(geometry: negCylinderGeom)
-            negCylinderNode.pivot = SCNMatrix4MakeTranslation(0.0, negHeight.floatValue/2.0, 0.0)
-            negCylinderNode.position = SCNVector3(x: origin.x + i, y: origin.y, z: origin.z)
-            negCylinderNode.geometry!.materials = [negativeMaterial]
+            let negCylinderNode = makeCylinder(SCNVector3(x: origin.x + i, y: origin.y, z: origin.z), height: negHeight.floatValue, positive: false)
             cylinders.append(negCylinderNode)
             
             i += 0.1
@@ -135,5 +118,25 @@ class GridVC: UIViewController {
         
         return cylinders
     }
-
+    
+    func makeCylinder(origin: SCNVector3, height: Float, positive: Bool) -> SCNNode {
+        let cylinderGeom = SCNCylinder(radius: 0.025, height: CGFloat(height))
+        let cylinderNode = SCNNode(geometry: cylinderGeom)
+        
+        let positiveMaterial = SCNMaterial()
+        positiveMaterial.diffuse.contents = DisplaySettings.sharedInstance.getPosSpokeColor()
+        let negativeMaterial = SCNMaterial()
+        negativeMaterial.diffuse.contents = DisplaySettings.sharedInstance.getNegSpokeColor()
+        
+        if positive {
+            cylinderNode.pivot = SCNMatrix4MakeTranslation(0.0, -1.0 * height/2.0, 0.0)
+            cylinderNode.geometry!.materials = [positiveMaterial]
+        } else {
+            cylinderNode.pivot = SCNMatrix4MakeTranslation(0.0, height/2.0, 0.0)
+            cylinderNode.geometry!.materials = [negativeMaterial]
+        }
+        
+        cylinderNode.position = origin
+        return cylinderNode
+    }
 }
