@@ -25,8 +25,8 @@ class DisplaySettings {
     var spokeFormat = SpokeFormat.Box
     
     var diskColor: String = "565656"
-    var positiveSpokeColor: String = "FF0000"
-    var negativeSpokeColor: String = "00FF00"
+    var positiveSpokeColor: String = "00FF00"
+    var negativeSpokeColor: String = "FF0000"
     
     //var bgImgName: String = imgNames[0]
     var bgImgIdx = 4

@@ -7,8 +7,8 @@
 //
 
 import UIKit
+import WsBase
 
-//@IBDesignable
 class WheelView: UIView {
     
     var circlePathLayer = CAShapeLayer()
@@ -57,7 +57,7 @@ class WheelView: UIView {
             if balance.amount != NSDecimalNumber.zero() {
                 let theta = calculateAngle(idx, num: ledger.balances.count)
                 let path = getPath(theta, amount: balance.amount.decimalNumberByDividingBy(ledger.maxAmount))
-                addPath(path, negate: balance.amount.doubleValue < 0.0)
+                addPath(path, negate: balance.amount < NSDecimalNumber.zero())
                 if addLabels {
                     addLabel( theta, str : balance.otherParty )
                 }

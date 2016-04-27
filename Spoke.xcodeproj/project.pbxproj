@@ -24,6 +24,7 @@
 		C7A5F4F81CD0BB9800232C51 /* gradient-black-to-white.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7A5F4F71CD0BB9800232C51 /* gradient-black-to-white.jpg */; };
 		C7A5F4FA1CD0BBC800232C51 /* Lloyds_building_London.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7A5F4F91CD0BBC800232C51 /* Lloyds_building_London.jpg */; };
 		C7A5F4FC1CD0BC2600232C51 /* blue_graph_paper.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7A5F4FB1CD0BC2600232C51 /* blue_graph_paper.jpg */; };
+		C7A5F4FF1CD0C5FF00232C51 /* GridVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A5F4FE1CD0C5FF00232C51 /* GridVC.swift */; };
 		C7F4ECB11CC917AC0094EC55 /* MenuTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4ECB01CC917AC0094EC55 /* MenuTVC.swift */; };
 		C7F4ECB31CC91E160094EC55 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4ECB21CC91E160094EC55 /* CouchbaseLite.framework */; };
 		C7F4ECB51CC91E1C0094EC55 /* WsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F4ECB41CC91E1C0094EC55 /* WsBase.framework */; };
@@ -67,6 +68,7 @@
 		C7A5F4F71CD0BB9800232C51 /* gradient-black-to-white.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "gradient-black-to-white.jpg"; sourceTree = "<group>"; };
 		C7A5F4F91CD0BBC800232C51 /* Lloyds_building_London.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Lloyds_building_London.jpg; sourceTree = "<group>"; };
 		C7A5F4FB1CD0BC2600232C51 /* blue_graph_paper.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = blue_graph_paper.jpg; sourceTree = "<group>"; };
+		C7A5F4FE1CD0C5FF00232C51 /* GridVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridVC.swift; sourceTree = "<group>"; };
 		C7F4ECB01CC917AC0094EC55 /* MenuTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTVC.swift; sourceTree = "<group>"; };
 		C7F4ECB21CC91E160094EC55 /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Carthage/Build/iOS/CouchbaseLite.framework; sourceTree = "<group>"; };
 		C7F4ECB41CC91E1C0094EC55 /* WsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WsBase.framework; path = Carthage/Build/iOS/WsBase.framework; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				E8C4F7D71CCE78CF002F991F /* SpokeScene.swift */,
 				C75370401CCFAC1300160D7A /* DisplaySettings.swift */,
 				C75370421CCFACDE00160D7A /* DisplaySettingsVC.swift */,
+				C7A5F4FE1CD0C5FF00232C51 /* GridVC.swift */,
 			);
 			path = Spoke;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				C75370411CCFAC1300160D7A /* DisplaySettings.swift in Sources */,
 				C71676361CC7B37100CA7F8A /* SpokeData.swift in Sources */,
 				C7F4ECB81CC91EB40094EC55 /* CBSettings.swift in Sources */,
+				C7A5F4FF1CD0C5FF00232C51 /* GridVC.swift in Sources */,
 				C795CB391CCA12DC0040624A /* WheelCVC.swift in Sources */,
 				C75370431CCFACDE00160D7A /* DisplaySettingsVC.swift in Sources */,
 				C751D2141CC7A10C003C2B5B /* WheelViewController.swift in Sources */,

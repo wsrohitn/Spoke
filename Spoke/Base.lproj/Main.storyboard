@@ -91,6 +91,24 @@
             </objects>
             <point key="canvasLocation" x="-14" y="145"/>
         </scene>
+        <!--GridVC-->
+        <scene sceneID="mZS-Lw-9IQ">
+            <objects>
+                <viewController storyboardIdentifier="GridVC" id="b9z-hg-2BY" customClass="GridVC" customModule="Spoke" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="r2L-EV-VG6"/>
+                        <viewControllerLayoutGuide type="bottom" id="oHx-a0-QFu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pfG-Ap-4fy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3wj-qA-G4k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="683" y="1596"/>
+        </scene>
         <!--Display SettingsVC-->
         <scene sceneID="unZ-WI-Uzx">
             <objects>
@@ -249,7 +267,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nHb-t3-DZE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-28" y="955"/>
+            <point key="canvasLocation" x="-14" y="884"/>
         </scene>
         <!--Three DeeVC-->
         <scene sceneID="Vwg-Fl-3kQ">

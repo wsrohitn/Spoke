@@ -50,7 +50,7 @@ class ThreeDeeVC: UIViewController {
     func makeCapsules(origin: SCNVector3, balances: [Ledger.Balance]) -> [SCNNode] {
         let num = balances.count
         let theta = Float(2 * M_PI / Double(num))
-        let max = balances.map({$0.amount.abs()}).reduce(NSDecimalNumber.zero(), combine: { $0 > $1 ? $0 : $1})
+        let max = balances.map({$0.amount.abs()}).reduce(NSDecimalNumber.zero(), combine: { $0 > $1 ? $0 : $1}) // ledger.maxAmount
         
         let positiveMaterial = SCNMaterial()
         positiveMaterial.diffuse.contents = DisplaySettings.sharedInstance.getPosSpokeColor() //UIColor.greenColor()

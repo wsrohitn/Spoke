@@ -58,8 +58,9 @@ class MenuTVC: UITableViewController {
     
     
     func clickBRK() {
-        let wheels =  dataSet.getBrokerDataSet()
-        WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: wheels, title: "Brokers")
+        let ledgers =  dataSet.getBrokerDataSet()
+        GridVC.LoadVC(self.storyboard!, nc: self.navigationController!, ledgers: ledgers, title: "Brokers")
+        //WheelCVC.LoadVC(self.storyboard!, nc: self.navigationController!, wheels: ledgers, title: "Brokers")
     }
     
     func clickSynd() {
